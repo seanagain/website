@@ -340,6 +340,68 @@
   .finis { font-family: "IM Fell English", serif; font-size: 2.2rem; letter-spacing: .1em; }
   .colophon-seal { display: flex; justify-content: center; margin-top: 1.6rem; }
 
+  /* Table of contents on the left page */
+  .subnav { list-style: none; padding: 0; margin: 0 auto; max-width: 340px; counter-reset: s; }
+  .subnav li { counter-increment: s; }
+  .subnav button {
+    display: flex; width: 100%; align-items: baseline; gap: .5rem; padding: .55rem 0;
+    background: none; border: 0; cursor: pointer; text-align: left; color: var(--ink);
+    font: 1.3rem "IM Fell English", "EB Garamond", serif;
+  }
+  .subnav button::before { content: counter(s, upper-roman) "."; min-width: 2.2rem; color: var(--muted); font: 1rem "EB Garamond", serif; font-variant: small-caps; }
+  .subnav button::after { content: ""; order: 2; flex: 1; border-bottom: 1px dotted var(--muted); transform: translateY(-5px); }
+  .subnav .lbl { order: 1; }
+  .subnav .mark { order: 3; color: var(--accent); visibility: hidden; font-size: 1.1rem; }
+  .subnav button:hover .lbl { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .subnav button[aria-current="true"] { color: var(--accent); }
+  .subnav button[aria-current="true"] .mark { visibility: visible; }
+
+  /* Photography plates */
+  .plates { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; margin-top: 1.2rem; }
+  .plate { margin: 0; position: relative; }
+  .plate:nth-child(odd) { transform: rotate(-1.3deg); }
+  .plate:nth-child(even) { transform: rotate(1.1deg); }
+  .plate .ph, .plate img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover; display: grid; place-items: center;
+    background: var(--grain), rgba(120,80,30,.14); color: var(--muted); font-style: italic;
+    border: 6px solid color-mix(in srgb, var(--paper) 55%, #fff 45%); box-shadow: 0 2px 5px rgba(0,0,0,.28);
+    filter: sepia(.15);
+  }
+  .plate::before, .plate::after { content: ""; position: absolute; top: -4px; width: 20px; height: 20px; background: #3A2A1C; z-index: 1; }
+  .plate::before { left: -4px; clip-path: polygon(0 0, 100% 0, 0 100%); }
+  .plate::after { right: -4px; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+  .plate figcaption { text-align: center; font-style: italic; font-size: .9rem; color: var(--muted); margin-top: .45rem; }
+
+  /* Dive log */
+  .logkv { display: grid; grid-template-columns: auto 1fr; gap: .3rem 1.2rem; margin: 1.2rem 0 1.6rem; }
+  .logkv dt { font-variant: small-caps; letter-spacing: .08em; color: var(--muted); }
+  .logkv dd { margin: 0; }
+  table.log { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .log th { text-align: left; font-weight: 500; font-variant: small-caps; letter-spacing: .06em; color: var(--accent); border-bottom: 2px solid var(--line); padding: .3rem .4rem; }
+  .log td { border-bottom: 1px solid var(--line); padding: .45rem .4rem; vertical-align: top; }
+
+  /* Travel map */
+  .map { position: relative; margin: .8rem -30px 1.2rem; padding: 6px; border: 3px double var(--line); background: rgba(255,248,230,.25); }
+  .map img { width: 100%; height: auto; }
+  .map .pins { position: absolute; inset: 6px; }
+  .pin {
+    position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; padding: 0; border-radius: 50%; cursor: pointer;
+    background: var(--ribbon); border: 2px solid #F6E6CC; box-shadow: 0 1px 2px rgba(0,0,0,.45);
+  }
+  .pin::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid var(--ribbon); opacity: 0; animation: ping 2.6s ease-out infinite; }
+  @keyframes ping { 0% { transform: scale(.4); opacity: .8; } 100% { transform: scale(1.5); opacity: 0; } }
+  .pin span {
+    position: absolute; bottom: 160%; left: 50%; transform: translateX(-50%); white-space: nowrap; pointer-events: none;
+    background: var(--ink); color: var(--paper); font: italic .88rem "EB Garamond", serif; padding: 2px 8px; border-radius: 3px;
+    opacity: 0; transition: opacity .2s;
+  }
+  .pin:hover, .pin:focus-visible, .pin.lit { z-index: 2; }
+  .pin:hover span, .pin:focus-visible span, .pin.lit span { opacity: 1; }
+  .places { list-style: none; padding: 0; margin: 0; text-align: center; font-variant: small-caps; letter-spacing: .04em; color: var(--muted); }
+  .places li { display: inline; cursor: pointer; }
+  .places li + li::before { content: " · "; color: var(--accent); }
+  .places li:hover { color: var(--accent); }
+
   /* ================= PHONES & SMALL TABLETS ================= */
   @media (max-width: 820px) {
     .stage { padding: 60px 12px 14px; place-items: start center; }
@@ -350,6 +412,9 @@
     .chapter.page { padding: 34px 22px 22px; border-radius: 4px; }
     .chapter > .recto::before { content: "❦"; display: block; text-align: center; color: var(--accent); font-size: 1.4rem; margin: 1.8rem 0; }
     .oval { width: 150px; }
+    .chapter > .recto:not(.current) { display: none; }
+    .plates { gap: 18px 12px; }
+    .map { margin: .8rem -8px 1.2rem; }
     .cover { left: 0; width: 100%; }
     .face, .cover .face { border-radius: 4px; }
     .tabs {
@@ -591,57 +656,117 @@
           </div>
         </section>
 
-        <!-- ===================== CHAPTER: PROJECTS & HOBBIES ===================== -->
+        <!-- ===================== CHAPTER: PROJECTS & HOBBIES =====================
+             This chapter has several right-hand pages. Each
+             <div class="recto" data-sub="..."> becomes one heading in the
+             list on the left page, automatically. Add or delete one to
+             change the list. -->
         <section class="chapter" id="projects" data-tab="Projects &amp; Hobbies">
           <div class="verso">
-            <div class="chapter-head">
-              <div class="chapter-no">Chapter V</div>
-              <h2>Projects</h2>
-              <div class="orn">❦</div>
+            <div class="fill">
+              <div class="chapter-head">
+                <div class="chapter-no">Chapter V</div>
+                <h2>Projects &amp; Pursuits</h2>
+                <div class="orn">❦</div>
+              </div>
+              <p class="center meta" style="margin-bottom:1.4rem">Choose a heading to turn to it.</p>
+              <ol class="subnav"></ol>
             </div>
-            <!-- Copy an entry to add another project. Add a link with:
-                 <a href="https://...">See more →</a> -->
-            <div class="entry">
-              <h3>Tibi <span class="zh" lang="zh-Hant">提筆</span></h3>
-              <p class="meta">A handwriting app, in development · Flutter</p>
-              <p>Chinese learners write characters in context, filling blanks in sentences built only from characters they already know.</p>
-            </div>
+          </div>
+
+          <!-- ---------- Teaching Projects ---------- -->
+          <div class="recto" data-sub="Teaching Projects">
+            <div class="chapter-head"><h2>Teaching Projects</h2><div class="orn">❦</div></div>
             <div class="entry">
               <h3>International View</h3>
               <p class="meta">Washington High School · 2024 – present</p>
-              <p>English–Chinese translation of a weekly global news curriculum used by schools across the region.</p>
+              <p>English–Chinese translation and proofreading of a weekly global news curriculum used by schools across the region.</p>
             </div>
             <div class="entry">
               <h3>Digital Mandarin curriculum</h3>
               <p class="meta">National Academy for Educational Research · 2023</p>
-              <p>A digital Mandarin course for learners in Taiwan, drawing on corpus tools and AI-assisted design.</p>
+              <p>A digital Mandarin course for learners in Taiwan, written for the Ministry of Education and drawing on corpus tools and AI-assisted design.</p>
             </div>
             <div class="entry">
               <h3>Cross-border classroom exchanges</h3>
               <p class="meta">2024 – present</p>
-              <p>Live online exchanges with high schools in Japan, Malaysia, and the USA.</p>
+              <p>Live online exchanges connecting my students with high schools in Japan, Malaysia, and the USA.</p>
             </div>
           </div>
-          <div class="recto">
-            <div class="chapter-head">
-              <h2>Hobbies</h2>
-              <div class="orn">❦</div>
+
+          <!-- ---------- Digital Projects ---------- -->
+          <div class="recto" data-sub="Digital Projects">
+            <div class="chapter-head"><h2>Digital Projects</h2><div class="orn">❦</div></div>
+            <!-- Copy an entry to add another project. Add a link with:
+                 <p><a href="https://...">See it here →</a></p> -->
+            <div class="entry">
+              <h3>Tibi <span class="zh" lang="zh-Hant">提筆</span></h3>
+              <p class="meta">Android app · in development · Flutter</p>
+              <p>A handwriting app for Chinese learners. Instead of drilling stroke order on flashcards, you write characters in context, filling blanks in sentences built only from characters you already know. Strokes are graded by position and direction, with a gentle hint when you miss.</p>
             </div>
-            <!-- Replace these with your hobbies. -->
-            <div class="grid">
-              <div class="card">
-                <h3>[Hobby one]</h3>
-                <p>[A sentence or two: what you do, and what you get out of it.]</p>
-              </div>
-              <div class="card">
-                <h3>[Hobby two]</h3>
-                <p>[A sentence or two.]</p>
-              </div>
-              <div class="card">
-                <h3>[Hobby three]</h3>
-                <p>[A sentence or two.]</p>
-              </div>
+            <div class="entry">
+              <h3>This website</h3>
+              <p class="meta">HTML &amp; CSS · 2026</p>
+              <p>A portfolio designed as an antique book, with page turns, bookmark tabs, and a hand-plotted travel map.</p>
             </div>
+            <div class="entry">
+              <h3>[Another project]</h3>
+              <p class="meta">[What it's built with · year]</p>
+              <p>[A sentence or two about what it does and why you made it.]</p>
+            </div>
+          </div>
+
+          <!-- ---------- Photography ---------- -->
+          <div class="recto" data-sub="Photography">
+            <div class="chapter-head"><h2>Photography</h2><div class="orn">❦</div></div>
+            <p class="center">[A sentence about your photography: what you like to shoot, and with what camera.]</p>
+            <!-- To add a photo: upload it to the "photos" folder in the repo,
+                 then replace <div class="ph">Photograph</div> with
+                 <img src="photos/your-file.jpg" alt="Short description"> -->
+            <div class="plates">
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+            </div>
+          </div>
+
+          <!-- ---------- Scuba Diving ---------- -->
+          <div class="recto" data-sub="Scuba Diving">
+            <div class="chapter-head"><h2>Scuba Diving</h2><div class="orn">❦</div></div>
+            <p class="center">[A sentence about why you dive and what you love about it.]</p>
+            <dl class="logkv">
+              <dt>Certification</dt><dd>[e.g. PADI Open Water]</dd>
+              <dt>Dives logged</dt><dd>[number]</dd>
+              <dt>Deepest dive</dt><dd>[metres]</dd>
+            </dl>
+            <h3 class="sub">Dive Log</h3>
+            <!-- Copy a <tr> row to log another dive. -->
+            <table class="log">
+              <thead><tr><th>Date</th><th>Site</th><th>Depth</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>[Mon YYYY]</td><td>[Dive site, country]</td><td>[18 m]</td><td>[What you saw]</td></tr>
+                <tr><td>[Mon YYYY]</td><td>[Dive site, country]</td><td>[12 m]</td><td>[What you saw]</td></tr>
+                <tr><td>[Mon YYYY]</td><td>[Dive site, country]</td><td>[20 m]</td><td>[What you saw]</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ---------- Travels ---------- -->
+          <div class="recto" data-sub="Travels">
+            <div class="chapter-head"><h2>Travels</h2><div class="orn">❦</div></div>
+            <p class="center meta">Places I've lived, studied, worked, and wandered. Hover over a pin, or tap a name.</p>
+            <div class="map"><img src="map.svg" alt="World map with pins on places I've visited"></div>
+            <!-- To add a pin: copy a line below and change the name and numbers.
+                 To get the numbers: in Google Maps, right-click the place.
+                 The first number shown is data-lat, the second is data-lon. -->
+            <ul class="places">
+              <li data-lat="25.03" data-lon="121.56">Taipei, Taiwan</li>
+              <li data-lat="24.15" data-lon="120.67">Taichung, Taiwan</li>
+              <li data-lat="40.23" data-lon="-111.66">Provo, Utah</li>
+              <li data-lat="42.10" data-lon="-111.88">Preston, Idaho</li>
+              <li data-lat="34.05" data-lon="-118.24">Los Angeles, California</li>
+            </ul>
           </div>
         </section>
 
@@ -709,9 +834,10 @@
   const mobile = matchMedia('(max-width: 820px)');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const chapters = [...right.querySelectorAll(':scope > .chapter')].map(el => ({
-    el, verso: el.querySelector(':scope > .verso'), recto: el.querySelector(':scope > .recto'),
-    tab: el.dataset.tab, id: el.id
+    el, verso: el.querySelector(':scope > .verso'), rectos: [...el.querySelectorAll(':scope > .recto')],
+    sub: 0, tab: el.dataset.tab, id: el.id
   }));
+  const R = c => c.rectos[c.sub];   // the right page currently chosen in a chapter
   let current = 0, busy = false, single = false;
 
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -722,6 +848,49 @@
     b.className = 'tab'; b.textContent = c.tab;
     b.addEventListener('click', () => go(i));
     tabsEl.appendChild(b);
+  });
+
+  // Chapters with several right pages get a clickable list on their left page
+  chapters.forEach((c, i) => {
+    const list = c.verso.querySelector('.subnav');
+    if (!list) return;
+    c.rectos.forEach((r, k) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      const lbl = document.createElement('span'); lbl.className = 'lbl'; lbl.textContent = r.dataset.sub;
+      const mark = document.createElement('span'); mark.className = 'mark'; mark.textContent = '❧';
+      b.append(lbl, mark);
+      b.addEventListener('click', () => goSub(i, k));
+      li.append(b); list.append(li);
+    });
+    markSub(c);
+  });
+
+  function markSub(c) {
+    const list = c.verso.querySelector('.subnav');
+    if (list) [...list.querySelectorAll('button')].forEach((b, k) => b.setAttribute('aria-current', k === c.sub ? 'true' : 'false'));
+  }
+
+  // Map pins, placed from each place's latitude/longitude
+  document.querySelectorAll('.recto').forEach(r => {
+    const map = r.querySelector('.map');
+    if (!map) return;
+    const pins = document.createElement('div'); pins.className = 'pins'; map.append(pins);
+    r.querySelectorAll('.places li').forEach(li => {
+      const lat = parseFloat(li.dataset.lat), lon = parseFloat(li.dataset.lon);
+      if (isNaN(lat) || isNaN(lon)) return;
+      const p = document.createElement('button'); p.className = 'pin';
+      p.style.left = ((lon + 180) / 360 * 100) + '%';
+      p.style.top = ((84 - lat) / 142 * 100) + '%';
+      p.setAttribute('aria-label', li.textContent);
+      const tip = document.createElement('span'); tip.textContent = li.textContent; p.append(tip);
+      pins.append(p);
+      const light = () => { pins.querySelectorAll('.lit').forEach(x => x.classList.remove('lit')); p.classList.add('lit'); };
+      li.addEventListener('mouseenter', light);
+      li.addEventListener('mouseleave', () => p.classList.remove('lit'));
+      li.addEventListener('click', light);
+      p.addEventListener('click', () => p.classList.contains('lit') ? p.classList.remove('lit') : light());
+    });
   });
 
   function folio(i, num, prev, next) {
@@ -739,16 +908,16 @@
     single = mobile.matches;
     document.querySelectorAll('.folio').forEach(f => f.remove());
     chapters.forEach((c, i) => {
-      [c.el, c.verso, c.recto].forEach(e => e.classList.remove('active', 'page'));
+      [c.el, c.verso, ...c.rectos].forEach(e => e.classList.remove('active', 'page'));
       if (single) {
         c.el.prepend(c.verso);
         c.el.classList.add('page');
         c.el.append(folio(i, i + 1, true, true));
       } else {
         left.appendChild(c.verso);
-        c.verso.classList.add('page'); c.recto.classList.add('page');
+        c.verso.classList.add('page');
         c.verso.append(folio(i, i * 2 + 1, true, false));
-        c.recto.append(folio(i, i * 2 + 2, false, true));
+        c.rectos.forEach(r => { r.classList.add('page'); r.append(folio(i, i * 2 + 2, false, true)); });
       }
     });
     setActive(current);
@@ -758,8 +927,9 @@
   function setActive(i) {
     chapters.forEach((c, k) => {
       const on = k === i;
+      c.rectos.forEach((r, j) => r.classList.toggle('current', j === c.sub));
       if (single) c.el.classList.toggle('active', on);
-      else { c.verso.classList.toggle('active', on); c.recto.classList.toggle('active', on); }
+      else { c.verso.classList.toggle('active', on); c.rectos.forEach((r, j) => r.classList.toggle('active', on && j === c.sub)); }
     });
   }
 
@@ -811,7 +981,7 @@
     const cur = chapters[current], tgt = chapters[n], forward = n > current;
     history.replaceState(null, '', '#' + tgt.id);
     current = n; markTabs();
-    if (reduce) { setActive(n); [tgt.el, tgt.verso, tgt.recto].forEach(e => e.scrollTop = 0); return; }
+    if (reduce) { setActive(n); [tgt.el, tgt.verso, R(tgt)].forEach(e => e.scrollTop = 0); return; }
     busy = true;
     const leaf = makeLeaf();
 
@@ -827,18 +997,42 @@
 
     if (forward) {
       // the current right page turns over; its back is the next left page
-      put(leaf.front, cur.recto, cur.recto.scrollTop);
+      put(leaf.front, R(cur), R(cur).scrollTop);
       put(leaf.back, tgt.verso);
-      show(cur.recto, false); show(tgt.recto, true);
+      show(R(cur), false); show(R(tgt), true);
     } else {
       // the current left page turns back; its front is the earlier right page
-      put(leaf.front, tgt.recto);
+      put(leaf.front, R(tgt));
       put(leaf.back, cur.verso, cur.verso.scrollTop);
       show(cur.verso, false); show(tgt.verso, true);
     }
     turn(leaf, forward, false).then(() => {
       if (forward) { show(cur.verso, false); show(tgt.verso, true); }
-      else { show(cur.recto, false); show(tgt.recto, true); }
+      else { show(R(cur), false); show(R(tgt), true); }
+      leaf.el.remove(); busy = false;
+    });
+  }
+
+  // Switch between the right-hand pages of one chapter (e.g. Photography → Travels)
+  function goSub(i, k) {
+    const c = chapters[i];
+    if (k === c.sub || busy) return;
+    const from = c.rectos[c.sub], to = c.rectos[k], forward = k > c.sub;
+    c.sub = k; markSub(c);
+    if (single) {
+      from.classList.remove('current'); to.classList.add('current');
+      if (!reduce) to.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 450, easing: 'ease-out' });
+      c.el.scrollTo({ top: to.offsetTop - 16, behavior: reduce ? 'auto' : 'smooth' });
+      return;
+    }
+    if (reduce) { show(from, false); show(to, true); return; }
+    busy = true;
+    const leaf = makeLeaf();
+    put(leaf.back, c.verso, c.verso.scrollTop);
+    if (forward) { put(leaf.front, from, from.scrollTop); show(from, false); show(to, true); }
+    else put(leaf.front, to);
+    turn(leaf, forward, false).then(() => {
+      if (!forward) { show(from, false); show(to, true); }
       leaf.el.remove(); busy = false;
     });
   }
