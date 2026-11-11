@@ -618,7 +618,7 @@
         <ol>
           <li>Find <b>website-update.zip</b> in your Downloads and double-click it to unzip it.</li>
           <li>Open <a href="${GH_UPLOAD}" target="_blank" rel="noopener">GitHub's upload page</a> (it opens in a new tab).</li>
-          <li>Drag <b>all the files</b> from the unzipped folder onto that page.</li>
+          <li>Open the unzipped folder and drag <b>the files inside it</b> onto that page (not the .zip file itself).</li>
           <li>Click the green <b>Commit changes</b> button.</li>
         </ol>
         <p>Your site updates within a minute or two.</p>

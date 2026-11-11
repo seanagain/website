@@ -313,6 +313,19 @@
   .timeline ul li { margin-bottom: .25rem; }
   .timeline ul li::marker { content: "❧  "; color: var(--accent); font-size: .85em; }
 
+  /* Roles that open a story */
+  .timeline > li.opens { cursor: pointer; margin-left: -14px; padding-left: 11px; border-left: 3px solid transparent; transition: background .2s, border-color .2s; }
+  .timeline > li.opens:hover { background: rgba(120,80,30,.06); }
+  .timeline > li.reading { border-left-color: var(--ribbon); }
+  .read-more { display: block; background: none; border: 0; padding: 0; margin: -.2rem 0 .5rem; cursor: pointer; color: var(--accent); font: italic 1rem "EB Garamond", serif; }
+  .read-more::after { content: " ❧"; }
+  .read-more:hover { text-decoration: underline; }
+  .story-head { text-align: center; margin-bottom: 1.2rem; }
+  .story-head h2 { margin: .25rem 0 .2rem; }
+  .story-head .when { font-variant: small-caps; letter-spacing: .1em; color: var(--accent); font-size: .95rem; }
+  .story .sub { margin-top: 1.4rem; }
+  .back-roles { display: none; }
+
   /* Entries & cards */
   .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
   .card { border: 3px double var(--line); padding: 14px 16px; }
@@ -446,6 +459,7 @@
     .chapter > .recto::before { content: "❦"; display: block; text-align: center; color: var(--accent); font-size: 1.4rem; margin: 1.8rem 0; }
     .oval { width: 150px; }
     .chapter > .recto:not(.current) { display: none; }
+    .back-roles { display: inline-block; background: none; border: 0; padding: 0; margin-bottom: .6rem; color: var(--accent); font: italic 1rem "EB Garamond", serif; cursor: pointer; }
     .plates { gap: 18px 12px; }
     .map { margin: .8rem -8px 1.2rem; }
     .cover { left: 0; width: 100%; }
@@ -521,16 +535,20 @@
           </div>
         </section>
 
-        <!-- ===================== CHAPTER: EXPERIENCE ===================== -->
+        <!-- ===================== CHAPTER: EXPERIENCE =====================
+             The left page lists every role. A role with data-open="..."
+             gets a "Read more" link that shows the right page with the
+             same data-key="...". The first right page is shown until a
+             role is chosen. -->
         <section class="chapter" id="experience" data-tab="Experience">
           <div class="verso">
             <div class="chapter-head">
               <div class="chapter-no">Chapter II</div>
-              <h2>WorkExperience</h2>
+              <h2>Work Experience</h2>
               <div class="orn">❦</div>
             </div>
             <ol class="timeline">
-              <li>
+              <li data-open="washington">
                 <div class="when">Aug 2024 – Present</div>
                 <h3>Bilingual Program Instructor</h3>
                 <div class="where">Washington High School <span class="zh" lang="zh-Hant">華盛頓高級中學</span> · Taichung, Taiwan</div>
@@ -541,7 +559,7 @@
                   <li>Translate and proofread <em>International View</em>, a weekly global news curriculum published for schools across the region.</li>
                 </ul>
               </li>
-              <li>
+              <li data-open="naer">
                 <div class="when">Aug – Dec 2023</div>
                 <h3>Mandarin Curriculum Design Intern</h3>
                 <div class="where">National Academy for Educational Research <span class="zh" lang="zh-Hant">國家教育研究院</span> · Taipei</div>
@@ -550,10 +568,6 @@
                   <li>Consulted on the Academy's language corpus tools, and translated and proofread its English documentation.</li>
                 </ul>
               </li>
-            </ol>
-          </div>
-          <div class="recto">
-            <ol class="timeline">
               <li>
                 <div class="when">Mar 2020 – Jun 2023</div>
                 <h3>Research &amp; Teaching Assistant</h3>
@@ -591,6 +605,47 @@
                 </ul>
               </li>
             </ol>
+          </div>
+
+          <!-- ---------- shown first ---------- -->
+          <div class="recto" data-sub="Notes">
+            <div class="fill center">
+              <div class="chapter-head"><h2>Notes from the Field</h2><div class="orn">❦</div></div>
+              <p>Some of these roles come with a story: the programs I built, the students I worked with, and the materials I made along the way.</p>
+              <p class="meta">Choose a role marked “Read more ❧” on the left page.</p>
+            </div>
+          </div>
+
+          <!-- ---------- Washington High School story ---------- -->
+          <div class="recto story" data-sub="Washington High School" data-key="washington">
+            <div class="story-head">
+              <div class="when">Aug 2024 – Present</div>
+              <h2>Washington High School</h2>
+              <p class="meta">Bilingual Program Instructor · Taichung, Taiwan</p>
+              <div class="orn">❦</div>
+            </div>
+            <h3 class="sub">Model United Nations</h3>
+            <p>[A few sentences about your work with Model UN: what you did, what the students achieved, and a moment you're proud of.]</p>
+            <figure class="pic" style="width:80%"><div class="ph">Picture</div><figcaption>[Caption]</figcaption></figure>
+            <h3 class="sub">Evening TOEIC</h3>
+            <p>[A few sentences about the evening TOEIC classes: who they were for, how you taught them, and how the students did.]</p>
+          </div>
+
+          <!-- ---------- NAER story ---------- -->
+          <div class="recto story" data-sub="National Academy for Educational Research" data-key="naer">
+            <div class="story-head">
+              <div class="when">Aug – Dec 2023</div>
+              <h2>National Academy for Educational Research</h2>
+              <p class="meta">Mandarin Curriculum Design Intern · Taipei, Taiwan</p>
+              <div class="orn">❦</div>
+            </div>
+            <p>[A few sentences about the digital Mandarin curriculum you designed: who it's for and what makes it different.]</p>
+            <h3 class="sub">Curriculum prototypes</h3>
+            <p>[One line introducing the prototypes, which were built with Gamma, an AI presentation tool.]</p>
+            <div class="buttons">
+              <a class="btn ghost" href="https://gamma.app" target="_blank" rel="noopener">[Prototype 1]</a>
+              <a class="btn ghost" href="https://gamma.app" target="_blank" rel="noopener">[Prototype 2]</a>
+            </div>
           </div>
         </section>
 
@@ -781,7 +836,7 @@
             <div class="chapter-head"><h2>Travels</h2><div class="orn">❦</div></div>
             <p class="center meta">The places I've called home, and the countries I've wandered through. Hover over a marker, or tap a name.</p>
             <div class="map" data-src="map.svg"><img src="map.svg" alt="World map of the places I've lived and the countries I've visited"></div>
-            <div class="legend"><span><i class="key-home"></i>Home</span><span><i class="key-pin"></i>Other places</span><span><i class="key-country"></i>Countries visited</span></div>
+            <div class="legend"><span><i class="key-home"></i>Home</span><span><i class="key-country"></i>Places visited</span></div>
 
             <!-- To add a place: copy a line and change the name and numbers.
                  To get the numbers, right-click the place in Google Maps.
@@ -794,9 +849,6 @@
               <li data-lat="22.32" data-lon="114.17">Hong Kong</li>
               <li data-lat="25.03" data-lon="121.56">Taipei, Taiwan</li>
               <li data-lat="24.15" data-lon="120.67">Taichung, Taiwan</li>
-            </ul>
-            <ul class="places">
-              <li data-lat="40.23" data-lon="-111.66"></li>
             </ul>
 
             <!-- To shade another country, add a line with its name.
@@ -860,7 +912,6 @@
           <div class="corner top"></div><div class="corner bottom"></div>
           <div class="frame"></div>
           <span class="crn tl">❦</span><span class="crn tr">❦</span><span class="crn bl">❦</span><span class="crn br">❦</span>
-          <div class="kicker">A Teaching Portfolio</div>
           <div class="title">Sean<br>Cameron</div>
           <div class="rule">— ❖ —</div>
           <div class="subtitle">Bilingual Educator &amp; Researcher</div>
@@ -952,7 +1003,33 @@
   function markSub(c) {
     const list = c.verso.querySelector('.subnav');
     if (list) [...list.querySelectorAll('button')].forEach((b, k) => b.setAttribute('aria-current', k === c.sub ? 'true' : 'false'));
+    const key = R(c).dataset.key;
+    c.verso.querySelectorAll('[data-open]').forEach(el => el.classList.toggle('reading', el.dataset.open === key));
   }
+
+  // Items with data-open="key" on a left page show the right page with data-key="key"
+  chapters.forEach((c, i) => {
+    c.verso.querySelectorAll('[data-open]').forEach(el => {
+      const k = c.rectos.findIndex(r => r.dataset.key === el.dataset.open);
+      if (k < 0) return;
+      el.classList.add('opens');
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'read-more'; b.textContent = 'Read more';
+      (el.querySelector('.where') || el.lastElementChild).after(b);
+      el.addEventListener('click', e => {
+        if (document.body.classList.contains('editing') && !e.target.closest('.read-more')) return;
+        goSub(i, k);
+      });
+    });
+    c.rectos.forEach(r => {
+      if (!r.dataset.key) return;
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'back-roles'; b.textContent = '↑ Back to all roles';
+      b.addEventListener('click', () => c.el.scrollTo({ top: 0, behavior: 'smooth' }));
+      r.prepend(b);
+    });
+    markSub(c);
+  });
 
   // Travel map: house markers for homes, pins for other places, shaded countries.
   // The map covers latitudes 84 to -58, longitudes -180 to 180.
