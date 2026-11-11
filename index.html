@@ -350,10 +350,10 @@
   .subnav button::before { content: counter(s, upper-roman) "."; min-width: 2.2rem; color: var(--muted); font: 1rem "EB Garamond", serif; font-variant: small-caps; }
   .subnav button::after { content: ""; order: 2; flex: 1; border-bottom: 1px dotted var(--muted); transform: translateY(-5px); }
   .subnav .lbl { order: 1; }
-  .subnav .mark { order: 3; color: var(--accent); visibility: hidden; font-size: 1.1rem; }
+  .subnav .mark { order: 3; color: var(--accent); opacity: 0; font-size: 1.1rem; }
   .subnav button:hover .lbl { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
   .subnav button[aria-current="true"] { color: var(--accent); }
-  .subnav button[aria-current="true"] .mark { visibility: visible; }
+  .subnav button[aria-current="true"] .mark { opacity: 1; }
 
   /* Photography plates */
   .plates { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; margin-top: 1.2rem; }
@@ -370,6 +370,17 @@
   .plate::before { left: -4px; clip-path: polygon(0 0, 100% 0, 0 100%); }
   .plate::after { right: -4px; clip-path: polygon(0 0, 100% 0, 100% 100%); }
   .plate figcaption { text-align: center; font-style: italic; font-size: .9rem; color: var(--muted); margin-top: .45rem; }
+
+  /* Blocks added in edit mode */
+  .pic { margin: 1.2rem auto; max-width: 100%; }
+  .pic img, .pic .ph {
+    display: block; width: 100%; height: auto; border: 6px solid color-mix(in srgb, var(--paper) 55%, #fff 45%);
+    box-shadow: 0 2px 5px rgba(0,0,0,.28); filter: sepia(.12);
+  }
+  .pic .ph { aspect-ratio: 4/3; display: grid; place-items: center; background: var(--grain), rgba(120,80,30,.14); color: var(--muted); font-style: italic; }
+  .pic figcaption { text-align: center; font-style: italic; font-size: .92rem; color: var(--muted); margin-top: .45rem; }
+  .quote-block { margin: 1.2rem 0; padding: .2rem 0 .2rem 1.1rem; border-left: 3px solid var(--ribbon); font-style: italic; }
+  .quote-block p { margin-bottom: .3rem; }
 
   /* Dive log */
   .stats { display: flex; justify-content: center; gap: 3rem; margin: 1rem 0 1.6rem; text-align: center; }
@@ -882,16 +893,32 @@
      ============================================================ -->
 <script>
 (() => {
-  // Edit mode (sdcameron.com/?edit): mark the editable text before the book is assembled
-  const EDITABLE = ['h1', 'h2', 'h3', 'p', 'li', 'dt', 'dd', 'figcaption', '.when', '.where', '.meta', '.chapter-no',
-    '.title-kicker', '.org', '.name', '.lbl', '.big:not(.certs-count)', '.finis', 'a.btn', '.row span']
-    .map(x => '.chapter ' + x).join(', ');
+  // Edit mode (sdcameron.com/?edit). Before the book is assembled, label every piece of
+  // content so edit.js can match it to the same spot in the original index.html file.
   const editing = new URLSearchParams(location.search).has('edit');
   if (editing) {
-    const els = [...document.querySelectorAll(EDITABLE)].filter(el => !el.querySelector(EDITABLE));
-    els.forEach((el, i) => { el.dataset.eid = i; });
-    window.BOOK_EDITABLE = EDITABLE;
-    window.BOOK_EDIT_TOTAL = els.length;
+    const TEXT = 'h1,h2,h3,p,li,dt,dd,figcaption,.when,.where,.meta,.chapter-no,.title-kicker,.org,.name,.lbl,.big:not(.certs-count),.finis,a.btn,.row span';
+    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.grid,.plates,.certs,.tags,.places,.countries,.stats,.buttons';
+    const WRAP = '.verso,.recto,.fill,.prose';
+    const SKIP = '.subnav,.folio,.pins,script';
+    const kind = el => {
+      if (!el.closest('.chapter,.verso,.recto') || el.closest(SKIP)) return 0;
+      const parent = el.parentElement;
+      return (el.matches(BOX) ? 1 : 0)
+        | (!el.matches(WRAP) && parent && parent.matches(BOX) ? 2 : 0)
+        | (el.matches(TEXT) && !el.querySelector(TEXT) ? 4 : 0);
+    };
+    const tag = (root, next) => {
+      const out = [];
+      [root, ...root.querySelectorAll('*')].forEach(el => {
+        const k = kind(el);
+        if (k) { el.dataset.eid = next(); el.dataset.ek = k; out.push(el); }
+      });
+      return out;
+    };
+    let n = 0;
+    const count = tag(document.body, () => n++).length;
+    window.BOOK_EDIT = { kind, tag, count, next: () => n++ };
   }
 
   const book = document.getElementById('book');
