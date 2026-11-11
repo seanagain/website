@@ -1102,7 +1102,7 @@
   function goSub(i, k) {
     const c = chapters[i];
     if (k === c.sub || busy) return;
-    const from = c.rectos[c.sub], to = c.rectos[k], forward = k > c.sub;
+    const from = c.rectos[c.sub], to = c.rectos[k];
     c.sub = k; markSub(c);
     if (single) {
       from.classList.remove('current'); to.classList.add('current');
@@ -1110,16 +1110,9 @@
       c.el.scrollTo({ top: to.offsetTop - 16, behavior: reduce ? 'auto' : 'smooth' });
       return;
     }
-    if (reduce) { show(from, false); show(to, true); return; }
-    busy = true;
-    const leaf = makeLeaf();
-    put(leaf.back, c.verso, c.verso.scrollTop);
-    if (forward) { put(leaf.front, from, from.scrollTop); show(from, false); show(to, true); }
-    else put(leaf.front, to);
-    turn(leaf, forward, false).then(() => {
-      if (!forward) { show(from, false); show(to, true); }
-      leaf.el.remove(); busy = false;
-    });
+    // On computers the right page simply fades to the new section
+    show(from, false); show(to, true);
+    if (!reduce) to.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 350, easing: 'ease-out' });
   }
 
   function openBook(instant) {
