@@ -375,7 +375,7 @@
   .stats { display: flex; justify-content: center; gap: 3rem; margin: 1rem 0 1.6rem; text-align: center; }
   .stats .big { display: block; font-family: "IM Fell English", serif; font-size: 2.8rem; line-height: 1; color: var(--accent); }
   .stats .lbl { font-variant: small-caps; letter-spacing: .08em; color: var(--muted); }
-  .certs { list-style: none; padding: 0; margin: 0 0 1.8rem; }
+  .certs { list-style: none; padding: 0; margin: 0; }
   .certs li { display: flex; align-items: baseline; gap: .6rem; padding: .3rem 0; }
   .certs .org { min-width: 2.9rem; font-variant: small-caps; letter-spacing: .06em; color: var(--accent); }
   .certs li::after { content: ""; order: 2; flex: 1; min-width: 1rem; border-bottom: 1px dotted var(--muted); transform: translateY(-4px); }
@@ -773,16 +773,6 @@
               <li><span class="org">SDI</span><span class="name">DPV Diver</span><span class="when">Nov 2025</span></li>
               <li><span class="org">SNSI</span><span class="name">Dry Suit Diver</span><span class="when">Mar 2026</span></li>
             </ol>
-            <h3 class="sub">Dive Log</h3>
-            <!-- Copy a <tr> row to log another dive. -->
-            <table class="log">
-              <thead><tr><th>Date</th><th>Site</th><th>Depth</th><th>Notes</th></tr></thead>
-              <tbody>
-                <tr><td>[Mon YYYY]</td><td>[Dive site, country]</td><td>[18 m]</td><td>[What you saw]</td></tr>
-                <tr><td>[Mon YYYY]</td><td>[Dive site, country]</td><td>[12 m]</td><td>[What you saw]</td></tr>
-                <tr><td>[Mon YYYY]</td><td>[Dive site, country]</td><td>[20 m]</td><td>[What you saw]</td></tr>
-              </tbody>
-            </table>
           </div>
 
           <!-- ---------- Travels ---------- -->
