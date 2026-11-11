@@ -882,6 +882,18 @@
      ============================================================ -->
 <script>
 (() => {
+  // Edit mode (sdcameron.com/?edit): mark the editable text before the book is assembled
+  const EDITABLE = ['h1', 'h2', 'h3', 'p', 'li', 'dt', 'dd', 'figcaption', '.when', '.where', '.meta', '.chapter-no',
+    '.title-kicker', '.org', '.name', '.lbl', '.big:not(.certs-count)', '.finis', 'a.btn', '.row span']
+    .map(x => '.chapter ' + x).join(', ');
+  const editing = new URLSearchParams(location.search).has('edit');
+  if (editing) {
+    const els = [...document.querySelectorAll(EDITABLE)].filter(el => !el.querySelector(EDITABLE));
+    els.forEach((el, i) => { el.dataset.eid = i; });
+    window.BOOK_EDITABLE = EDITABLE;
+    window.BOOK_EDIT_TOTAL = els.length;
+  }
+
   const book = document.getElementById('book');
   const cover = document.getElementById('cover');
   const left = document.getElementById('left');
@@ -1149,6 +1161,7 @@
 
   // Keyboard arrows
   document.addEventListener('keydown', e => {
+    if (e.target.isContentEditable || /input|textarea/i.test(e.target.tagName)) return;
     if (book.classList.contains('closed')) { if (e.key === 'ArrowRight') openBook(); return; }
     if (e.key === 'ArrowRight') go(current + 1);
     if (e.key === 'ArrowLeft') go(current - 1);
@@ -1168,6 +1181,11 @@
 
   mobile.addEventListener('change', layout);
   layout();
+
+  if (editing) {
+    window.bookOpen = () => openBook(true);
+    const s = document.createElement('script'); s.src = 'edit.js'; document.body.append(s);
+  }
 })();
 </script>
 </body>
