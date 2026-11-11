@@ -396,6 +396,57 @@
   .quote-block { margin: 1.2rem 0; padding: .2rem 0 .2rem 1.1rem; border-left: 3px solid var(--ribbon); font-style: italic; }
   .quote-block p { margin-bottom: .3rem; }
 
+  /* Photo albums */
+  .albums { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 20px; margin-top: 1.4rem; }
+  .album { text-align: center; cursor: pointer; }
+  .album-cover { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; transition: transform .25s ease; }
+  .album:nth-child(odd) .album-cover { transform: rotate(-1.3deg); }
+  .album:nth-child(even) .album-cover { transform: rotate(1.2deg); }
+  .album:hover .album-cover { transform: rotate(0) translateY(-3px); }
+  .album-cover img, .album-cover .ph {
+    display: grid; place-items: center; width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    border: 6px solid color-mix(in srgb, var(--paper) 55%, #fff 45%);
+    background: var(--grain), rgba(120,80,30,.14); color: var(--muted); font: italic .95rem "EB Garamond", serif;
+    box-shadow: 0 2px 4px rgba(0,0,0,.28), 6px 6px 0 -2px #EEE3CA, 6px 6px 3px -1px rgba(0,0,0,.22), 12px 12px 0 -4px #E6D9BC, 12px 12px 4px -3px rgba(0,0,0,.18);
+    filter: sepia(.12);
+  }
+  .album h3 { margin-top: .9rem; font-size: 1.3rem; }
+  .album-count { display: block; font-style: italic; color: var(--muted); font-size: .9rem; }
+  .album .slides { display: none; }
+  body.editing .album { cursor: default; text-align: left; }
+  body.editing .album-cover, body.editing .album-count { display: none; }
+  body.editing .albums { grid-template-columns: 1fr; gap: 28px; }
+  body.editing .album .slides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: .6rem; }
+
+  /* Slideshow */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 900; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 56px 70px 40px; background: radial-gradient(ellipse at center, rgba(40,26,14,.92), rgba(12,7,3,.97));
+    color: #EADFC8; font-family: "EB Garamond", Georgia, serif;
+  }
+  .lightbox[hidden] { display: none; }
+  .lb-title { position: absolute; top: 18px; left: 0; right: 0; text-align: center; font-variant: small-caps; letter-spacing: .25em; color: var(--gold); font-size: 1.05rem; }
+  .lb-frame { margin: 0; display: flex; flex-direction: column; align-items: center; max-width: 100%; }
+  .lb-img img, .lb-img .ph {
+    display: block; max-width: min(1100px, 100%); max-height: calc(100svh - 230px); object-fit: contain;
+    border: 8px solid #F6EDD9; box-shadow: 0 16px 40px rgba(0,0,0,.6);
+  }
+  .lb-img .ph { display: grid; place-items: center; width: min(640px, 78vw); aspect-ratio: 4/3; background: var(--grain), #E7D9BC; color: #6E5D48; font-style: italic; }
+  .lb-frame figcaption { margin-top: 1rem; max-width: 60ch; text-align: center; font-style: italic; font-size: 1.1rem; line-height: 1.5; }
+  .lb-count { margin-top: .6rem; font-size: .95rem; opacity: .7; font-style: italic; }
+  .lightbox button { position: absolute; display: grid; place-items: center; cursor: pointer; border-radius: 50%; color: #EADFC8; background: rgba(0,0,0,.25); border: 1px solid rgba(212,176,104,.6); font-family: Georgia, serif; }
+  .lightbox button:hover { background: rgba(212,176,104,.25); }
+  .lb-close { top: 12px; right: 14px; width: 42px; height: 42px; font-size: 1.6rem; }
+  .lb-prev, .lb-next { top: 50%; width: 52px; height: 52px; margin-top: -26px; font-size: 2rem; line-height: 1; }
+  .lb-prev { left: 12px; } .lb-next { right: 12px; }
+  .lightbox.single .lb-prev, .lightbox.single .lb-next { display: none; }
+  @media (max-width: 820px) {
+    .lightbox { padding: 60px 12px 80px; }
+    .lb-prev, .lb-next { top: auto; bottom: 14px; margin: 0; width: 46px; height: 46px; }
+    .lb-prev { left: calc(50% - 90px); } .lb-next { right: calc(50% - 90px); }
+    .lb-count { position: absolute; bottom: 26px; left: 0; right: 0; text-align: center; margin: 0; }
+  }
+
   /* Dive log */
   .stats { display: flex; justify-content: center; gap: 3rem; margin: 1rem 0 1.6rem; text-align: center; }
   .stats .big { display: block; font-family: "IM Fell English", serif; font-size: 2.8rem; line-height: 1; color: var(--accent); }
@@ -855,14 +906,43 @@
           <div class="recto" data-sub="Photography">
             <div class="chapter-head"><h2>Photography</h2><div class="orn">❦</div></div>
             <p class="center">[A sentence about your photography: what you like to shoot, and with what camera.]</p>
-            <!-- To add a photo: upload it to the "photos" folder in the repo,
-                 then replace <div class="ph">Photograph</div> with
-                 <img src="photos/your-file.jpg" alt="Short description"> -->
-            <div class="plates">
-              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
-              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
-              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
-              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+            <!-- Each album opens as a slideshow; its first photo is the cover.
+                 In edit mode the photos show under each album title: use 🖼 to
+                 choose a photo, click a caption to type, and ＋ to add another
+                 photo. Duplicate a whole album to start a new one. -->
+            <div class="albums">
+              <div class="album">
+                <h3>Travel</h3>
+                <div class="slides">
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                </div>
+              </div>
+              <div class="album">
+                <h3>Diving</h3>
+                <div class="slides">
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                </div>
+              </div>
+              <div class="album">
+                <h3>Daily Life</h3>
+                <div class="slides">
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                </div>
+              </div>
+              <div class="album">
+                <h3>Nature</h3>
+                <div class="slides">
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                  <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption, place]</figcaption></figure>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -993,7 +1073,7 @@
   const editing = new URLSearchParams(location.search).has('edit');
   if (editing) {
     const TEXT = 'h1,h2,h3,p,li,dt,dd,figcaption,.when,.where,.meta,.chapter-no,.title-kicker,.org,.name,.lbl,.big:not(.certs-count),.finis,a.btn,.row span';
-    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.grid,.plates,.certs,.tags,.places,.countries,.stats,.buttons';
+    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.grid,.plates,.albums,.slides,.certs,.tags,.places,.countries,.stats,.buttons';
     const WRAP = '.verso,.recto,.fill,.prose';
     const SKIP = '.subnav,.folio,.pins,script';
     const kind = el => {
@@ -1149,6 +1229,83 @@
   // Certification counts on the scuba page
   document.querySelectorAll('.certs-count').forEach(el => {
     el.textContent = el.closest('.recto').querySelectorAll('.certs li').length;
+  });
+
+  // Photo albums: each .album shows a cover and opens a slideshow of its photos
+  const lb = document.createElement('div');
+  lb.className = 'lightbox'; lb.hidden = true;
+  lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true');
+  lb.innerHTML = '<div class="lb-title"></div><button type="button" class="lb-close" aria-label="Close">×</button>' +
+    '<button type="button" class="lb-prev" aria-label="Previous photo">‹</button><figure class="lb-frame"><div class="lb-img"></div>' +
+    '<figcaption></figcaption><div class="lb-count"></div></figure><button type="button" class="lb-next" aria-label="Next photo">›</button>';
+  document.body.append(lb);
+  const lbImg = lb.querySelector('.lb-img'), lbCap = lb.querySelector('figcaption'), lbCount = lb.querySelector('.lb-count');
+  let lbSlides = [], lbIdx = 0, lbReturn = null;
+  function lbShow(i, dir) {
+    const n = lbSlides.length;
+    lbIdx = (i + n) % n;
+    const f = lbSlides[lbIdx], img = f.querySelector('img');
+    lbImg.innerHTML = '';
+    if (img) { const c = new Image(); c.src = img.currentSrc || img.src; c.alt = img.alt || ''; lbImg.append(c); }
+    else { const ph = document.createElement('div'); ph.className = 'ph'; ph.textContent = 'Photograph coming soon'; lbImg.append(ph); }
+    const cap = f.querySelector('figcaption');
+    lbCap.innerHTML = cap ? cap.innerHTML : '';
+    lbCount.textContent = (lbIdx + 1) + ' / ' + n;
+    const next = lbSlides[(lbIdx + 1) % n].querySelector('img');
+    if (next) new Image().src = next.src;
+    if (dir && !reduce) lb.querySelector('.lb-frame').animate(
+      [{ opacity: 0, transform: 'translateX(' + (dir * 40) + 'px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 280, easing: 'ease-out' });
+  }
+  function openAlbum(album) {
+    lbSlides = [...album.querySelectorAll('.slides > figure')];
+    if (!lbSlides.length) return;
+    lbReturn = document.activeElement;
+    const title = album.querySelector('h3') ? album.querySelector('h3').textContent : '';
+    lb.querySelector('.lb-title').textContent = title;
+    lb.setAttribute('aria-label', title + ' photographs');
+    lb.classList.toggle('single', lbSlides.length < 2);
+    lb.hidden = false; document.body.classList.add('lb-open');
+    lbShow(0, 0);
+    if (!reduce) lb.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 });
+    lb.querySelector('.lb-close').focus();
+  }
+  function closeAlbum() {
+    lb.hidden = true; document.body.classList.remove('lb-open');
+    if (lbReturn && lbReturn.focus) lbReturn.focus();
+  }
+  lb.querySelector('.lb-close').addEventListener('click', closeAlbum);
+  lb.querySelector('.lb-prev').addEventListener('click', () => lbShow(lbIdx - 1, -1));
+  lb.querySelector('.lb-next').addEventListener('click', () => lbShow(lbIdx + 1, 1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeAlbum(); });
+  document.addEventListener('keydown', e => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') closeAlbum();
+    if (e.key === 'ArrowRight') lbShow(lbIdx + 1, 1);
+    if (e.key === 'ArrowLeft') lbShow(lbIdx - 1, -1);
+  });
+  let lx = 0, ly = 0;
+  lb.addEventListener('touchstart', e => { lx = e.touches[0].clientX; ly = e.touches[0].clientY; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - lx, dy = e.changedTouches[0].clientY - ly;
+    if (Math.abs(dx) > 50 && Math.abs(dy) < 60) lbShow(lbIdx + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  document.querySelectorAll('.album').forEach(album => {
+    const slides = album.querySelectorAll('.slides > figure');
+    const cover = document.createElement('button');
+    cover.type = 'button'; cover.className = 'album-cover';
+    const first = album.querySelector('.slides img');
+    if (first) { const i = document.createElement('img'); i.src = first.getAttribute('src'); i.alt = ''; cover.append(i); }
+    else { const ph = document.createElement('span'); ph.className = 'ph'; ph.textContent = 'Photographs coming soon'; cover.append(ph); }
+    const title = album.querySelector('h3');
+    cover.setAttribute('aria-label', 'Open the ' + (title ? title.textContent : '') + ' album');
+    album.prepend(cover);
+    const count = document.createElement('span');
+    count.className = 'album-count';
+    count.textContent = slides.length + (slides.length === 1 ? ' photograph' : ' photographs');
+    (title || cover).after(count);
+    album.addEventListener('click', () => { if (!document.body.classList.contains('editing')) openAlbum(album); });
   });
 
   function folio(i, num, prev, next) {
@@ -1309,7 +1466,7 @@
 
   // Keyboard arrows
   document.addEventListener('keydown', e => {
-    if (e.target.isContentEditable || /input|textarea/i.test(e.target.tagName)) return;
+    if (e.target.isContentEditable || /input|textarea/i.test(e.target.tagName) || document.body.classList.contains('lb-open')) return;
     if (book.classList.contains('closed')) { if (e.key === 'ArrowRight') openBook(); return; }
     if (e.key === 'ArrowRight') go(current + 1);
     if (e.key === 'ArrowLeft') go(current - 1);
