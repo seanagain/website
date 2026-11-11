@@ -15,9 +15,8 @@
      - Only change the plain words between tags, e.g. in
        <h3>German</h3> only change "German".
      - Anything in [square brackets] is still a placeholder.
-     - To add a photo: upload photo.jpg to the repo, then replace
-       <span class="monogram">SC</span> with
-       <img src="photo.jpg" alt="Photo of Sean Cameron">
+     - Your portrait is photo.jpg. To change it, upload a new photo
+       to the repo with the same name.
      ============================================================ -->
 
 <title>Sean Cameron | Bilingual Educator</title>
@@ -397,10 +396,26 @@
   }
   .pin:hover, .pin:focus-visible, .pin.lit { z-index: 2; }
   .pin:hover span, .pin:focus-visible span, .pin.lit span { opacity: 1; }
-  .places { list-style: none; padding: 0; margin: 0; text-align: center; font-variant: small-caps; letter-spacing: .04em; color: var(--muted); }
-  .places li { display: inline; cursor: pointer; }
-  .places li + li::before { content: " · "; color: var(--accent); }
+  .places, .countries { list-style: none; padding: 0; margin: 0; font-variant: small-caps; letter-spacing: .04em; color: var(--muted); }
+  .places li, .countries li { display: inline; }
+  .places li { cursor: pointer; }
+  .places li + li::before, .countries li + li::before { content: " · "; color: var(--accent); }
   .places li:hover { color: var(--accent); }
+  .travel .sub { font-size: 1.1rem; margin: 1.1rem 0 .25rem; }
+  .travel .count { font: italic .95rem "EB Garamond", serif; color: var(--muted); }
+  .map svg { display: block; width: 100%; height: auto; }
+  .map svg path.visited { fill: #C99372; }
+  .map svg path.visited:hover { fill: #B97A5A; }
+  .pin.home { width: 18px; height: 18px; margin: -13px 0 0 -9px; background: none; border: 0; border-radius: 0; box-shadow: none; }
+  .pin.home svg { display: block; width: 100%; height: 100%; filter: drop-shadow(0 1px 1px rgba(0,0,0,.5)); }
+  .pin.home::after { inset: -5px; }
+  .pin:not(.home) { width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: var(--ink); border-width: 1.5px; }
+  .pin:not(.home)::after { display: none; }
+  .legend { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem 1.2rem; margin: -.5rem 0 .4rem; font-style: italic; font-size: .92rem; color: var(--muted); }
+  .legend i { display: inline-block; margin-right: 5px; vertical-align: -1px; }
+  .key-home { width: 12px; height: 12px; background: var(--ribbon); clip-path: polygon(50% 0, 100% 48%, 84% 48%, 84% 100%, 16% 100%, 16% 48%, 0 48%); }
+  .key-pin { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
+  .key-country { width: 14px; height: 10px; background: #C99372; border: 1px solid #7A6448; }
 
   /* ================= PHONES & SMALL TABLETS ================= */
   @media (max-width: 820px) {
@@ -448,8 +463,8 @@
         <section class="chapter" id="home" data-tab="Home">
           <div class="verso">
             <div class="fill frontis center">
-              <div class="oval"><span class="monogram">SC</span></div>
-              <p class="caption">The author, Taiwan.</p>
+              <div class="oval"><img src="photo.jpg" alt="Photo of Sean Cameron"></div>
+              <p class="caption">The author.</p>
             </div>
           </div>
           <div class="recto">
@@ -753,19 +768,52 @@
           </div>
 
           <!-- ---------- Travels ---------- -->
-          <div class="recto" data-sub="Travels">
+          <div class="recto travel" data-sub="Travels">
             <div class="chapter-head"><h2>Travels</h2><div class="orn">❦</div></div>
-            <p class="center meta">Places I've lived, studied, worked, and wandered. Hover over a pin, or tap a name.</p>
-            <div class="map"><img src="map.svg" alt="World map with pins on places I've visited"></div>
-            <!-- To add a pin: copy a line below and change the name and numbers.
-                 To get the numbers: in Google Maps, right-click the place.
+            <p class="center meta">The places I've called home, and the countries I've wandered through. Hover over a marker, or tap a name.</p>
+            <div class="map" data-src="map.svg"><img src="map.svg" alt="World map of the places I've lived and the countries I've visited"></div>
+            <div class="legend"><span><i class="key-home"></i>Home</span><span><i class="key-pin"></i>Other places</span><span><i class="key-country"></i>Countries visited</span></div>
+
+            <!-- To add a place: copy a line and change the name and numbers.
+                 To get the numbers, right-click the place in Google Maps.
                  The first number shown is data-lat, the second is data-lon. -->
-            <ul class="places">
+            <h3 class="sub">Homes</h3>
+            <ul class="places homes">
+              <li data-lat="41.74" data-lon="-111.83">Logan, Utah</li>
+              <li data-lat="34.05" data-lon="-118.24">Los Angeles, California</li>
+              <li data-lat="51.63" data-lon="9.60">Vernawahlshausen, Germany</li>
+              <li data-lat="22.32" data-lon="114.17">Hong Kong</li>
               <li data-lat="25.03" data-lon="121.56">Taipei, Taiwan</li>
               <li data-lat="24.15" data-lon="120.67">Taichung, Taiwan</li>
+            </ul>
+
+            <h3 class="sub">Other places</h3>
+            <ul class="places">
               <li data-lat="40.23" data-lon="-111.66">Provo, Utah</li>
-              <li data-lat="42.10" data-lon="-111.88">Preston, Idaho</li>
-              <li data-lat="34.05" data-lon="-118.24">Los Angeles, California</li>
+            </ul>
+
+            <!-- To shade another country, add a line with its name.
+                 If it doesn't shade, it may be too small for the map (or
+                 spelled differently): add data-lat and data-lon numbers
+                 like Singapore below, and it gets a dot instead. -->
+            <h3 class="sub">Countries visited <span class="count"></span></h3>
+            <ul class="countries">
+              <li data-map="United States of America">United States</li>
+              <li>Canada</li>
+              <li>Costa Rica</li>
+              <li>Germany</li>
+              <li>Austria</li>
+              <li>Japan</li>
+              <li>Taiwan</li>
+              <li data-lat="22.32" data-lon="114.17">Hong Kong</li>
+              <li data-lat="22.20" data-lon="113.54">Macau</li>
+              <li data-lat="1.35" data-lon="103.82">Singapore</li>
+              <li>Malaysia</li>
+              <li>Thailand</li>
+              <li>Philippines</li>
+              <li>Indonesia</li>
+              <li>Australia</li>
+              <li>New Zealand</li>
             </ul>
           </div>
         </section>
@@ -871,15 +919,52 @@
     if (list) [...list.querySelectorAll('button')].forEach((b, k) => b.setAttribute('aria-current', k === c.sub ? 'true' : 'false'));
   }
 
-  // Map pins, placed from each place's latitude/longitude
+  // Travel map: house markers for homes, pins for other places, shaded countries.
+  // The map covers latitudes 84 to -58, longitudes -180 to 180.
+  const HOUSE = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.5 19 10h-3v8.5H4V10H1z" fill="#8E2B20" stroke="#F6E6CC" stroke-width="1.6" stroke-linejoin="round"/></svg>';
   document.querySelectorAll('.recto').forEach(r => {
     const map = r.querySelector('.map');
     if (!map) return;
     const pins = document.createElement('div'); pins.className = 'pins'; map.append(pins);
+    const countries = [...r.querySelectorAll('.countries li')];
+    const count = r.querySelector('.count');
+    if (count) count.textContent = '(' + countries.length + ')';
+
+    fetch(map.dataset.src || 'map.svg')
+      .then(res => res.ok ? res.text() : Promise.reject())
+      .then(txt => {
+        const holder = document.createElement('div'); holder.innerHTML = txt;
+        const svg = holder.querySelector('svg');
+        if (!svg) return;
+        const img = map.querySelector('img');
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', img ? img.alt : 'World map');
+        const shapes = [...svg.querySelectorAll('path[data-name]')];
+        countries.forEach(li => {
+          const name = (li.dataset.map || li.textContent).trim().toLowerCase();
+          const shape = shapes.find(p => p.dataset.name.toLowerCase() === name);
+          const t = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+          t.textContent = li.textContent.trim();
+          if (shape) { shape.classList.add('visited'); shape.append(t); return; }
+          const lat = parseFloat(li.dataset.lat), lon = parseFloat(li.dataset.lon);
+          if (isNaN(lat) || isNaN(lon)) return;
+          const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          dot.setAttribute('cx', (lon + 180) * 1000 / 360);
+          dot.setAttribute('cy', (84 - lat) * 1000 / 360);
+          dot.setAttribute('r', 4);
+          dot.setAttribute('fill', '#C99372'); dot.setAttribute('stroke', '#7A6448'); dot.setAttribute('stroke-width', '1');
+          dot.append(t); svg.append(dot);
+        });
+        if (img) img.replaceWith(svg); else map.prepend(svg);
+      })
+      .catch(() => {});
+
     r.querySelectorAll('.places li').forEach(li => {
       const lat = parseFloat(li.dataset.lat), lon = parseFloat(li.dataset.lon);
       if (isNaN(lat) || isNaN(lon)) return;
-      const p = document.createElement('button'); p.className = 'pin';
+      const home = !!li.closest('.homes');
+      const p = document.createElement('button'); p.className = home ? 'pin home' : 'pin';
+      if (home) p.innerHTML = HOUSE;
       p.style.left = ((lon + 180) / 360 * 100) + '%';
       p.style.top = ((84 - lat) / 142 * 100) + '%';
       p.setAttribute('aria-label', li.textContent);
