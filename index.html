@@ -314,9 +314,11 @@
   .timeline ul li::marker { content: "❧  "; color: var(--accent); font-size: .85em; }
 
   /* Roles that open a story */
-  .timeline > li.opens { cursor: pointer; margin-left: -14px; padding-left: 11px; border-left: 3px solid transparent; transition: background .2s, border-color .2s; }
-  .timeline > li.opens:hover { background: rgba(120,80,30,.06); }
-  .timeline > li.reading { border-left-color: var(--ribbon); }
+  .verso .opens { cursor: pointer; margin-left: -14px; padding-left: 11px; border-left: 3px solid transparent; transition: background .2s, border-color .2s; }
+  .opens:hover { background: rgba(120,80,30,.06); }
+  .opens.reading { border-left-color: var(--ribbon); }
+  .verso .sub + .entry { padding-top: .2rem; }
+  .verso .entry + .sub { margin-top: 1.6rem; }
   .read-more { display: block; background: none; border: 0; padding: 0; margin: -.2rem 0 .5rem; cursor: pointer; color: var(--accent); font: italic 1rem "EB Garamond", serif; }
   .read-more::after { content: " ❧"; }
   .read-more:hover { text-decoration: underline; }
@@ -649,7 +651,10 @@
           </div>
         </section>
 
-        <!-- ===================== CHAPTER: EDUCATION ===================== -->
+        <!-- ===================== CHAPTER: EDUCATION =====================
+             Works like Experience: an entry with data-open="..." gets a
+             "Read more" link that shows the right page with the same
+             data-key="...". -->
         <section class="chapter" id="education" data-tab="Education">
           <div class="verso">
             <div class="chapter-head">
@@ -657,7 +662,8 @@
               <h2>Education</h2>
               <div class="orn">❦</div>
             </div>
-            <div class="entry">
+            <h3 class="sub">Degrees</h3>
+            <div class="entry" data-open="ma">
               <h3>M.A., Professional Language: Chinese</h3>
               <div class="meta">Brigham Young University · 2022 – 2024</div>
             </div>
@@ -665,21 +671,59 @@
               <h3>B.A., Linguistics &amp; Chinese</h3>
               <div class="meta">Brigham Young University · 2019 – 2023</div>
             </div>
-          </div>
-          <div class="recto">
             <h3 class="sub">Study in Taiwan</h3>
             <div class="entry">
               <h3>Academic Exchange, Chinese Language</h3>
               <div class="meta">National Chengchi University <span class="zh" lang="zh-Hant">國立政治大學</span> · 2023 – 2024</div>
             </div>
-            <div class="entry">
+            <div class="entry" data-open="ntu">
               <h3>Chinese Language &amp; Literature</h3>
               <div class="meta">National Taiwan University <span class="zh" lang="zh-Hant">國立臺灣大學</span> · Summer 2022</div>
             </div>
-            <h3 class="sub" style="margin-top:2rem">Certifications</h3>
+            <h3 class="sub">Certifications</h3>
             <div class="entry">
               <h3>Developing a Critical Thinking Mindset</h3>
               <div class="meta">Certification</div>
+            </div>
+          </div>
+
+          <!-- ---------- shown first ---------- -->
+          <div class="recto" data-sub="Notes">
+            <div class="fill center">
+              <div class="chapter-head"><h2>From My Studies</h2><div class="orn">❦</div></div>
+              <p>Behind a few of these lines are research projects, speeches, and some of my favourite memories.</p>
+              <p class="meta">Choose an entry marked “Read more ❧” on the left page.</p>
+            </div>
+          </div>
+
+          <!-- ---------- Master's story ---------- -->
+          <div class="recto story" data-sub="Master's degree" data-key="ma">
+            <div class="story-head">
+              <div class="when">2022 – 2024</div>
+              <h2>Master of Arts, Chinese</h2>
+              <p class="meta">Professional Language program · Brigham Young University</p>
+              <div class="orn">❦</div>
+            </div>
+            <h3 class="sub">My research</h3>
+            <p>[A few sentences about your research: the question you explored, how you went about it, and what you found.]</p>
+            <div class="plates">
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption]</figcaption></figure>
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption]</figcaption></figure>
+            </div>
+          </div>
+
+          <!-- ---------- NTU summer story ---------- -->
+          <div class="recto story" data-sub="Summer in Taipei" data-key="ntu">
+            <div class="story-head">
+              <div class="when">Summer 2022</div>
+              <h2>National Taiwan University</h2>
+              <p class="meta">Chinese Language &amp; Literature summer program · Taipei</p>
+              <div class="orn">❦</div>
+            </div>
+            <p>[A few sentences about the summer program: what you studied, the speech you gave, and what you took away from it.]</p>
+            <div class="plates">
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption]</figcaption></figure>
+              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption]</figcaption></figure>
             </div>
           </div>
         </section>
@@ -718,18 +762,30 @@
             </div>
             <div class="block">
               <h3 class="sub">Languages</h3>
-              <!-- Adjust the labels and bar widths (%) to match your levels. -->
+              <!-- Bar widths follow the CEFR scale: A1 17%, A2 33%, B1 50%, B2 67%, C1 83%, C2 / native 100%. -->
               <div class="lang">
                 <div class="row"><span>English</span><span>Native</span></div>
                 <div class="bar"><i style="width:100%"></i></div>
               </div>
               <div class="lang">
                 <div class="row"><span>Mandarin Chinese</span><span>CEFR C1</span></div>
-                <div class="bar"><i style="width:90%"></i></div>
+                <div class="bar"><i style="width:83%"></i></div>
               </div>
               <div class="lang">
                 <div class="row"><span>German</span><span>CEFR B2</span></div>
-                <div class="bar"><i style="width:60%"></i></div>
+                <div class="bar"><i style="width:67%"></i></div>
+              </div>
+              <div class="lang">
+                <div class="row"><span>Japanese</span><span>CEFR A2</span></div>
+                <div class="bar"><i style="width:33%"></i></div>
+              </div>
+              <div class="lang">
+                <div class="row"><span>Indonesian</span><span>CEFR A2</span></div>
+                <div class="bar"><i style="width:33%"></i></div>
+              </div>
+              <div class="lang">
+                <div class="row"><span>Cantonese</span><span>CEFR A2</span></div>
+                <div class="bar"><i style="width:33%"></i></div>
               </div>
             </div>
           </div>
@@ -1015,7 +1071,7 @@
       el.classList.add('opens');
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'read-more'; b.textContent = 'Read more';
-      (el.querySelector('.where') || el.lastElementChild).after(b);
+      (el.querySelector('.where, .meta') || el.lastElementChild).after(b);
       el.addEventListener('click', e => {
         if (document.body.classList.contains('editing') && !e.target.closest('.read-more')) return;
         goSub(i, k);
@@ -1024,7 +1080,7 @@
     c.rectos.forEach(r => {
       if (!r.dataset.key) return;
       const b = document.createElement('button');
-      b.type = 'button'; b.className = 'back-roles'; b.textContent = '↑ Back to all roles';
+      b.type = 'button'; b.className = 'back-roles'; b.textContent = '↑ Back to the list';
       b.addEventListener('click', () => c.el.scrollTo({ top: 0, behavior: 'smooth' }));
       r.prepend(b);
     });
