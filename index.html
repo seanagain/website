@@ -372,6 +372,14 @@
   .plate figcaption { text-align: center; font-style: italic; font-size: .9rem; color: var(--muted); margin-top: .45rem; }
 
   /* Dive log */
+  .stats { display: flex; justify-content: center; gap: 3rem; margin: 1rem 0 1.6rem; text-align: center; }
+  .stats .big { display: block; font-family: "IM Fell English", serif; font-size: 2.8rem; line-height: 1; color: var(--accent); }
+  .stats .lbl { font-variant: small-caps; letter-spacing: .08em; color: var(--muted); }
+  .certs { list-style: none; padding: 0; margin: 0 0 1.8rem; }
+  .certs li { display: flex; align-items: baseline; gap: .6rem; padding: .3rem 0; }
+  .certs .org { min-width: 2.9rem; font-variant: small-caps; letter-spacing: .06em; color: var(--accent); }
+  .certs li::after { content: ""; order: 2; flex: 1; min-width: 1rem; border-bottom: 1px dotted var(--muted); transform: translateY(-4px); }
+  .certs .when { order: 3; font-style: italic; color: var(--muted); white-space: nowrap; }
   .logkv { display: grid; grid-template-columns: auto 1fr; gap: .3rem 1.2rem; margin: 1.2rem 0 1.6rem; }
   .logkv dt { font-variant: small-caps; letter-spacing: .08em; color: var(--muted); }
   .logkv dd { margin: 0; }
@@ -750,11 +758,21 @@
           <div class="recto" data-sub="Scuba Diving">
             <div class="chapter-head"><h2>Scuba Diving</h2><div class="orn">❦</div></div>
             <p class="center">[A sentence about why you dive and what you love about it.]</p>
-            <dl class="logkv">
-              <dt>Certification</dt><dd>[e.g. PADI Open Water]</dd>
-              <dt>Dives logged</dt><dd>[number]</dd>
-              <dt>Deepest dive</dt><dd>[metres]</dd>
-            </dl>
+            <div class="stats">
+              <!-- Update this number as you log more dives. -->
+              <div><span class="big">73</span><span class="lbl">dives logged</span></div>
+              <div><span class="big certs-count"></span><span class="lbl">certifications</span></div>
+            </div>
+            <h3 class="sub">Certifications</h3>
+            <!-- Copy a line to add a new certification. The count above updates itself. -->
+            <ol class="certs">
+              <li><span class="org">PADI</span><span class="name">Open Water Diver</span><span class="when">Dec 2021</span></li>
+              <li><span class="org">PADI</span><span class="name">Advanced Open Water Diver</span><span class="when">Mar 2022</span></li>
+              <li><span class="org">SNSI</span><span class="name">Recreational Nitrox</span><span class="when">Jul 2025</span></li>
+              <li><span class="org">SNSI</span><span class="name">Rescue Diver</span><span class="when">Aug 2025</span></li>
+              <li><span class="org">SDI</span><span class="name">DPV Diver</span><span class="when">Nov 2025</span></li>
+              <li><span class="org">SNSI</span><span class="name">Dry Suit Diver</span><span class="when">Mar 2026</span></li>
+            </ol>
             <h3 class="sub">Dive Log</h3>
             <!-- Copy a <tr> row to log another dive. -->
             <table class="log">
@@ -976,6 +994,11 @@
       li.addEventListener('click', light);
       p.addEventListener('click', () => p.classList.contains('lit') ? p.classList.remove('lit') : light());
     });
+  });
+
+  // Certification counts on the scuba page
+  document.querySelectorAll('.certs-count').forEach(el => {
+    el.textContent = el.closest('.recto').querySelectorAll('.certs li').length;
   });
 
   function folio(i, num, prev, next) {
