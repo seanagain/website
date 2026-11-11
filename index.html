@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- ============================================================
-     HOW TO USE THIS TEMPLATE
-     1. Search this file for "[" — every square-bracket bit is a
-        placeholder for you to replace with your own info.
-     2. Delete any section you don't need (each one starts with a
-        big "SECTION" comment and ends with </section>).
-     3. To add another job / certificate / testimonial, copy one
-        of the existing blocks and paste it right below.
-     4. Put your photo in the same folder as this file, named
-        photo.jpg, and your CV as cv.pdf.
+     HOW TO EDIT THIS PAGE
+     - Anything in [square brackets] is still a placeholder.
+     - Each section starts with a big "SECTION" comment and ends
+       with </section>. Delete a whole section to remove it.
+     - To add another job / project / hobby, copy an existing
+       block and paste it right below.
+     - To add a photo: put photo.jpg next to this file, then swap
+       the "SC" monogram in the hero for:
+       <img src="photo.jpg" alt="Photo of Sean Cameron">
      ============================================================ -->
 
-<title>[Your Name] | Teacher</title>
-<meta name="description" content="[Your Name]: [subject] teacher with [X] years of experience, seeking international school positions in Asia.">
+<title>Sean Cameron | Bilingual Educator</title>
+<meta name="description" content="Sean Cameron: bilingual (English/Mandarin) educator and researcher based in Taiwan, with experience in curriculum design, ESL, and second-language acquisition.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,7 @@
     --ink: #1E2430;
     --muted: #5B6372;
     --line: #E6E0D6;
-    --accent: #2F6F6A;       /* main highlight color */
+    --accent: #2F6F6A;
     --accent-soft: #E3EFEC;
   }
   @media (prefers-color-scheme: dark) {
@@ -52,14 +52,15 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font: 400 17px/1.65 "Inter", system-ui, sans-serif;
+    font: 400 17px/1.65 "Inter", system-ui, "PingFang TC", "Microsoft JhengHei", sans-serif;
   }
   img { max-width: 100%; display: block; }
   a { color: var(--accent); }
-  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 600; line-height: 1.2; margin: 0; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, "Songti TC", "PMingLiU", serif; font-weight: 600; line-height: 1.2; margin: 0; }
   h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: 1.5rem; }
   h3 { font-size: 1.15rem; }
   p { margin: 0 0 1rem; }
+  .zh { font-family: "Songti TC", "Noto Serif TC", "PMingLiU", serif; }
 
   .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
   section { padding: 72px 0; border-top: 1px solid var(--line); }
@@ -80,19 +81,20 @@
   nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
   nav ul a { color: var(--muted); text-decoration: none; font-size: .92rem; }
   nav ul a:hover { color: var(--ink); }
-  @media (max-width: 720px) { nav ul { display: none; } }
+  @media (max-width: 760px) { nav ul { display: none; } }
 
-  /* ---- Hero (top of page) ---- */
+  /* ---- Hero ---- */
   .hero { padding: 80px 0 72px; border-top: 0; }
   .hero .wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
   .hero h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); margin-bottom: 1rem; }
-  .hero .lead { font-size: 1.15rem; color: var(--muted); max-width: 34ch; }
+  .hero .lead { font-size: 1.15rem; color: var(--muted); max-width: 36ch; }
   .photo {
     aspect-ratio: 4/5; border-radius: 18px; overflow: hidden;
     background: var(--accent-soft); border: 1px solid var(--line);
-    display: grid; place-items: center; color: var(--muted); font-size: .9rem;
+    display: grid; place-items: center;
   }
   .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .monogram { font-family: "Fraunces", serif; font-size: 5rem; color: var(--accent); }
   .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 1.25rem 0 1.75rem; padding: 0; list-style: none; }
   .facts li {
     font-size: .85rem; padding: 5px 12px; border-radius: 999px;
@@ -105,53 +107,51 @@
     background: var(--accent); color: #fff; border: 1px solid var(--accent);
   }
   .btn.ghost { background: transparent; color: var(--accent); }
+  @media (prefers-color-scheme: dark) { .btn { color: #14171C; } .btn.ghost { color: var(--accent); } }
   @media (max-width: 720px) {
     .hero .wrap { grid-template-columns: 1fr; }
-    .photo { max-width: 280px; order: -1; }
+    .photo { max-width: 240px; order: -1; }
   }
 
   /* ---- Cards & grids ---- */
-  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
   .card {
     background: var(--surface); border: 1px solid var(--line);
     border-radius: 14px; padding: 22px;
   }
   .card p:last-child { margin-bottom: 0; }
-  .card .meta { color: var(--muted); font-size: .88rem; margin: .25rem 0 .75rem; }
+  .meta { color: var(--muted); font-size: .88rem; margin: .25rem 0 .75rem; }
+  .sub { font-family: "Fraunces", serif; font-size: 1.3rem; margin: 2.75rem 0 1rem; }
 
   /* ---- Experience timeline ---- */
   .timeline { list-style: none; margin: 0; padding: 0; }
-  .timeline li {
+  .timeline > li {
     display: grid; grid-template-columns: 150px 1fr; gap: 24px;
     padding: 22px 0; border-bottom: 1px dashed var(--line);
   }
-  .timeline li:last-child { border-bottom: 0; }
+  .timeline > li:last-child { border-bottom: 0; }
   .timeline .when { color: var(--muted); font-size: .9rem; padding-top: 3px; }
   .timeline .where { color: var(--muted); font-size: .92rem; margin: .2rem 0 .6rem; }
   .timeline ul { margin: 0; padding-left: 1.1rem; }
-  .timeline ul li { display: list-item; padding: 0; border: 0; margin-bottom: .3rem; }
-  @media (max-width: 600px) { .timeline li { grid-template-columns: 1fr; gap: 4px; } }
+  .timeline ul li { margin-bottom: .3rem; }
+  @media (max-width: 600px) { .timeline > li { grid-template-columns: 1fr; gap: 4px; } }
 
-  /* ---- Skill tags ---- */
+  /* ---- Tags ---- */
   .tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
   .tags li { background: var(--accent-soft); color: var(--ink); padding: 6px 12px; border-radius: 8px; font-size: .9rem; }
 
-  /* ---- Language level bars ---- */
+  /* ---- Languages ---- */
   .lang { margin-bottom: 14px; }
-  .lang .row { display: flex; justify-content: space-between; font-size: .95rem; margin-bottom: 6px; }
-  .lang .row span:last-child { color: var(--muted); }
+  .lang .row { display: flex; justify-content: space-between; gap: 12px; font-size: .95rem; margin-bottom: 6px; }
+  .lang .row span:last-child { color: var(--muted); text-align: right; }
   .bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
   .bar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
 
-  /* ---- Testimonials ---- */
-  blockquote { margin: 0; font-family: "Fraunces", serif; font-size: 1.1rem; line-height: 1.5; }
-  .who { margin-top: 1rem; font-size: .88rem; color: var(--muted); }
-
-  /* ---- Philosophy pull-quote ---- */
-  .pull {
-    border-left: 3px solid var(--accent); padding: 4px 0 4px 20px; margin: 0 0 1.5rem;
-    font-family: "Fraunces", serif; font-size: 1.3rem; line-height: 1.45;
-  }
+  /* ---- Philosophy ---- */
+  .quote { margin: 0 0 2rem; padding: 4px 0 4px 20px; border-left: 3px solid var(--accent); }
+  .quote .zh { font-size: 1.35rem; line-height: 1.6; margin-bottom: .5rem; }
+  .quote .en { font-family: "Fraunces", serif; font-style: italic; color: var(--muted); margin: 0; }
+  .prose { max-width: 68ch; }
 
   /* ---- Contact ---- */
   .contact { text-align: center; }
@@ -164,13 +164,13 @@
 
 <nav>
   <div class="wrap">
-    <a class="name" href="#top">[Your Name]</a>
+    <a class="name" href="#top">Sean Cameron</a>
     <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
-      <li><a href="#qualifications">Qualifications</a></li>
+      <li><a href="#education">Education</a></li>
       <li><a href="#skills">Skills</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#projects">Projects &amp; Hobbies</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -180,23 +180,22 @@
 <header class="hero" id="top">
   <div class="wrap">
     <div>
-      <div class="eyebrow">[Subject / Grade level] Teacher</div>
-      <h1>Hi, I'm [Your Name].</h1>
-      <p class="lead">[One sentence about you as a teacher. E.g. "I help middle-school students fall in love with reading, in English and across cultures."]</p>
+      <div class="eyebrow">Bilingual Educator · Researcher</div>
+      <h1>Hi, I'm Sean Cameron.</h1>
+      <p class="lead">I teach high school courses in English and Mandarin in Taiwan, and I design curriculum grounded in second-language acquisition research.</p>
       <ul class="facts">
-        <li>📍 [Current city, Country]</li>
-        <li>🎓 [Degree, e.g. M.Ed.]</li>
-        <li>🪪 [Teaching license, e.g. QTS / State certified]</li>
-        <li>🗓 Available [Month Year]</li>
+        <li>📍 Taiwan</li>
+        <li>🎓 M.A. Chinese, Brigham Young University</li>
+        <li>🗣 English · Mandarin · German</li>
+        <li>🏫 Bilingual Program Instructor</li>
       </ul>
       <div class="buttons">
-        <a class="btn" href="cv.pdf" download>Download my CV</a>
-        <a class="btn ghost" href="#contact">Get in touch</a>
+        <a class="btn" href="#contact">Get in touch</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/sean-cameron-aa4a3a197">LinkedIn</a>
       </div>
     </div>
     <div class="photo">
-      <!-- Replace the line below with: <img src="photo.jpg" alt="Photo of [Your Name]"> -->
-      [Your photo here]
+      <span class="monogram">SC</span>
     </div>
   </div>
 </header>
@@ -206,10 +205,15 @@
   <div class="wrap">
     <div class="eyebrow">About me</div>
     <h2>My teaching philosophy</h2>
-    <p class="pull">"[A short, memorable line that sums up how you teach.]"</p>
-    <p>[2–3 sentences: who you are, where you've taught, and what drew you to international education.]</p>
-    <p>[2–3 sentences: what your classroom looks like day to day: how you differentiate, build community, support language learners, etc.]</p>
-    <p>[1–2 sentences: why Taiwan / Japan / Asia specifically, and what you'd bring to a school community beyond the classroom: clubs, coaching, service trips.]</p>
+    <blockquote class="quote">
+      <p class="zh" lang="zh-Hant">三人行，必有我師焉。擇其善者而從之，其不善者而改之。</p>
+      <p class="en">"When I walk along with two others, they may serve me as my teachers. I will select their good qualities and follow them, their bad qualities and avoid them." The Analects</p>
+    </blockquote>
+    <div class="prose">
+      <p>As a student in Taiwan, I made a friend named Chris, a pizza truck owner who had immigrated from France. Every pepperoni, every olive, and every mushroom was placed with intention. You could taste the passion in every bite. Though Chris was a foreigner, his dedication to his craft built a community, and when he announced his retirement, people came in droves for one last taste. When I asked him how he had mastered his craft, he said the community around him inspired him to do better and be better.</p>
+      <p>One of the greatest dangers we face, I believe, is complacency. It is easy to stay passive in a chaotic world, thinking we have nothing more to learn or do. A few close brushes with death at an early age taught me that our time is precious. So in every role I've had, whether translator, teacher, or student, I try to emulate Chris: persistent in my work, and learning from the people around me all the way.</p>
+      <p>In my classroom, that means building a community where students learn from one another across languages and cultures, through Model UN, global news, and live exchanges with schools in Japan, Malaysia, and the USA.</p>
+    </div>
   </div>
 </section>
 
@@ -217,72 +221,107 @@
 <section id="experience">
   <div class="wrap">
     <div class="eyebrow">Experience</div>
-    <h2>Where I've taught</h2>
+    <h2>Where I've worked</h2>
     <ol class="timeline">
-      <!-- Copy one <li>…</li> block per job. Most recent first. -->
       <li>
-        <div class="when">[2022 – Present]</div>
+        <div class="when">Aug 2024 – Present</div>
         <div>
-          <h3>[Job title, e.g. Grade 7 English Teacher]</h3>
-          <div class="where">[School name] · [City, Country] · [Curriculum, e.g. IB MYP]</div>
+          <h3>Bilingual Program Instructor</h3>
+          <div class="where">Washington High School <span class="zh" lang="zh-Hant">華盛頓高級中學</span> · Taichung, Taiwan</div>
           <ul>
-            <li>[An achievement with a number if possible, e.g. "Raised reading scores 18% across 3 classes"]</li>
-            <li>[A responsibility, e.g. "Led the Grade 7 team of 5 teachers"]</li>
-            <li>[Something extra, e.g. "Founded the debate club (40 members)"]</li>
+            <li>Design curriculum and teach high school courses in English and Mandarin: Business, International View (SDGs), Model UN, Music, and National Defense.</li>
+            <li>Teach ESL and German to junior high and high school students.</li>
+            <li>Coordinate online exchanges with high schools in Taiwan, Japan, Malaysia, and the USA.</li>
+            <li>Translate and proofread <em>International View</em>, a weekly global news curriculum published for schools across the region.</li>
           </ul>
         </div>
       </li>
       <li>
-        <div class="when">[2019 – 2022]</div>
+        <div class="when">Aug – Dec 2023</div>
         <div>
-          <h3>[Job title]</h3>
-          <div class="where">[School name] · [City, Country] · [Curriculum]</div>
+          <h3>Mandarin Curriculum Design Intern</h3>
+          <div class="where">National Academy for Educational Research <span class="zh" lang="zh-Hant">國家教育研究院</span> · Taipei, Taiwan</div>
           <ul>
-            <li>[Achievement]</li>
-            <li>[Responsibility]</li>
+            <li>Wrote and designed a digital curriculum for Mandarin learners for use by Taiwan's Ministry of Education.</li>
+            <li>Consulted on the Academy's language corpus tools for Mandarin learners.</li>
+            <li>Translated and proofread English manuals and documentation published by the Academy.</li>
           </ul>
         </div>
       </li>
       <li>
-        <div class="when">[2018 – 2019]</div>
+        <div class="when">Mar 2020 – Jun 2023</div>
         <div>
-          <h3>[Student teaching / tutoring / earlier role]</h3>
-          <div class="where">[Organization] · [City, Country]</div>
+          <h3>Research &amp; Teaching Assistant</h3>
+          <div class="where">Brigham Young University · Provo, Utah, USA</div>
           <ul>
-            <li>[What you did]</li>
+            <li><strong>Neurolinguistics Lab:</strong> conducted EEG sessions under Dr. Jeffrey Green and trained new research assistants; TA for LING 580R: Neurolinguistics.</li>
+            <li><strong>Economics:</strong> collected and analyzed historical data for Dr. Joseph Price, collaborating with researchers in the US and abroad; Kaizen team leader.</li>
+            <li><strong>Linguistics/Arabic:</strong> wrote articles on second-language acquisition research for a general audience.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="when">Feb 2021 – Jun 2022</div>
+        <div>
+          <h3>Language Content Specialist</h3>
+          <div class="where">Missionary Training Center · Provo, Utah, USA</div>
+          <ul>
+            <li>Managed language content in the Embark mobile app for Japanese, Korean, Mandarin, Cantonese, Vietnamese, Thai, and Persian, working with native speakers to ensure quality.</li>
+            <li>Developed Mandarin Canvas courses grounded in second-language acquisition research.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="when">Jan – Apr 2020</div>
+        <div>
+          <h3>Translation Guide Project Manager (Intern)</h3>
+          <div class="where">The Church of Jesus Christ of Latter-day Saints · Provo, Utah, USA</div>
+          <ul>
+            <li>Wrote translation guides as part of a team, tracked progress, and delivered on schedule to the project sponsor.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="when">Jul 2017 – Jul 2019</div>
+        <div>
+          <h3>Full-Time Representative</h3>
+          <div class="where">The Church of Jesus Christ of Latter-day Saints · Los Angeles, California, USA</div>
+          <ul>
+            <li>Taught community ESL classes and led service projects, primarily serving the Chinese-speaking community of Los Angeles County.</li>
+            <li>Supervised and trained groups of 15–18 representatives with weekly meetings, goal follow-ups, and progress reports.</li>
           </ul>
         </div>
       </li>
     </ol>
+    <p class="meta">Also: Mandarin customer representative at Beyond Menu (2023); bilingual role-play trainer at the Missionary Training Center (2019–2020); facility maintenance supervisor at Cub River Irrigation Co. (2019).</p>
   </div>
 </section>
 
-<!-- ======================= SECTION: QUALIFICATIONS ======================= -->
-<section id="qualifications">
+<!-- ======================= SECTION: EDUCATION ======================= -->
+<section id="education">
   <div class="wrap">
-    <div class="eyebrow">Qualifications</div>
+    <div class="eyebrow">Education</div>
     <h2>Education &amp; certifications</h2>
     <div class="grid">
-      <!-- Copy one card per qualification. -->
       <div class="card">
-        <h3>[Degree, e.g. B.A. in English Literature]</h3>
-        <div class="meta">[University] · [Year]</div>
-        <p>[Optional: honours, thesis topic, or minor.]</p>
+        <h3>M.A., Professional Language: Chinese</h3>
+        <div class="meta">Brigham Young University · 2022 – 2024</div>
       </div>
       <div class="card">
-        <h3>[Teaching license / PGCE / credential]</h3>
-        <div class="meta">[Issuing body] · [Year]</div>
-        <p>[Subjects and grade levels it covers.]</p>
+        <h3>B.A., Linguistics &amp; Chinese</h3>
+        <div class="meta">Brigham Young University · 2019 – 2023</div>
       </div>
       <div class="card">
-        <h3>[e.g. IB Category 1 Workshop]</h3>
-        <div class="meta">[Provider] · [Year]</div>
-        <p>[One line on what it covered.]</p>
+        <h3>Academic Exchange, Chinese Language</h3>
+        <div class="meta">National Chengchi University <span class="zh" lang="zh-Hant">國立政治大學</span> · 2023 – 2024</div>
       </div>
       <div class="card">
-        <h3>[e.g. TEFL / CELTA / First Aid]</h3>
-        <div class="meta">[Provider] · [Year]</div>
-        <p>[Hours or level.]</p>
+        <h3>Chinese Language &amp; Literature</h3>
+        <div class="meta">National Taiwan University <span class="zh" lang="zh-Hant">國立臺灣大學</span> · Summer 2022</div>
+      </div>
+      <div class="card">
+        <h3>Developing a Critical Thinking Mindset</h3>
+        <div class="meta">Certification</div>
       </div>
     </div>
   </div>
@@ -295,96 +334,101 @@
     <h2>What I bring</h2>
     <div class="grid">
       <div class="card">
-        <h3>Subjects &amp; levels</h3>
-        <p class="meta">[e.g. English, Humanities · Grades 6–10]</p>
+        <h3>Courses I've taught</h3>
+        <p class="meta">Junior high &amp; high school</p>
         <ul class="tags">
-          <li>[Subject]</li><li>[Subject]</li><li>[Grade band]</li>
+          <li>ESL</li><li>German</li><li>Business</li><li>Model UN</li>
+          <li>Global issues &amp; SDGs</li><li>Music</li><li>National Defense</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Curricula &amp; pedagogy</h3>
-        <p class="meta">Frameworks I've worked with</p>
+        <h3>Strengths</h3>
+        <p class="meta">What I'm known for</p>
         <ul class="tags">
-          <li>[IB PYP/MYP/DP]</li><li>[Cambridge IGCSE]</li><li>[AP]</li>
-          <li>[Inquiry-based learning]</li><li>[Differentiation]</li><li>[EAL support]</li>
+          <li>Bilingual instruction</li><li>Curriculum design</li>
+          <li>Second-language acquisition</li><li>Translation &amp; proofreading</li>
+          <li>International exchanges</li><li>Geopolitics</li><li>Research</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Classroom tech</h3>
-        <p class="meta">Tools I use confidently</p>
+        <h3>Tools</h3>
+        <p class="meta">Software I use confidently</p>
         <ul class="tags">
-          <li>[Google Classroom]</li><li>[ManageBac]</li><li>[Seesaw]</li><li>[Canva]</li>
+          <li>Canvas LMS</li><li>Google Workspace</li><li>Microsoft Office</li>
+          <li>Language corpora</li><li>AI tools for teaching</li>
         </ul>
       </div>
       <div class="card">
         <h3>Languages</h3>
-        <!-- Change the width % to match your level. -->
+        <!-- Adjust the labels and bar widths (%) to match your levels. -->
         <div class="lang">
           <div class="row"><span>English</span><span>Native</span></div>
           <div class="bar"><i style="width:100%"></i></div>
         </div>
         <div class="lang">
-          <div class="row"><span>[Mandarin Chinese]</span><span>[Intermediate · TOCFL B1]</span></div>
-          <div class="bar"><i style="width:55%"></i></div>
+          <div class="row"><span>Mandarin Chinese</span><span>Professional (teach &amp; translate)</span></div>
+          <div class="bar"><i style="width:90%"></i></div>
         </div>
         <div class="lang">
-          <div class="row"><span>[Japanese]</span><span>[Beginner · JLPT N5]</span></div>
-          <div class="bar"><i style="width:25%"></i></div>
+          <div class="row"><span>German</span><span>[Your level]</span></div>
+          <div class="bar"><i style="width:60%"></i></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ======================= SECTION: PORTFOLIO ======================= -->
-<section id="portfolio">
+<!-- ======================= SECTION: PROJECTS & HOBBIES ======================= -->
+<section id="projects">
   <div class="wrap">
-    <div class="eyebrow">Portfolio</div>
-    <h2>Lessons &amp; projects</h2>
-    <p>[Optional intro, e.g. "A few units I'm proud of. Links open sample materials (student names removed)."]</p>
-    <div class="grid">
-      <!-- Copy one card per project. Link to a Google Drive PDF, a video, or a slide deck. -->
-      <div class="card">
-        <div class="eyebrow">[Grade 8 · English]</div>
-        <h3>[Unit or project title]</h3>
-        <p class="meta">[2–3 weeks · Project-based]</p>
-        <p>[What students did and what they learned, in two sentences.]</p>
-        <a href="[link]">View materials →</a>
-      </div>
-      <div class="card">
-        <div class="eyebrow">[Grade 6 · Humanities]</div>
-        <h3>[Unit or project title]</h3>
-        <p class="meta">[Length · Approach]</p>
-        <p>[Short description.]</p>
-        <a href="[link]">Watch a lesson clip →</a>
-      </div>
-      <div class="card">
-        <div class="eyebrow">[Extracurricular]</div>
-        <h3>[Club, trip, event, or app you built]</h3>
-        <p class="meta">[Year]</p>
-        <p>[Short description.]</p>
-        <a href="[link]">Learn more →</a>
-      </div>
-    </div>
-  </div>
-</section>
+    <div class="eyebrow">Beyond the classroom</div>
+    <h2>Projects &amp; hobbies</h2>
 
-<!-- ======================= SECTION: TESTIMONIALS ======================= -->
-<section id="testimonials">
-  <div class="wrap">
-    <div class="eyebrow">Kind words</div>
-    <h2>What colleagues say</h2>
+    <!-- Copy a card to add another project. Add a link with:
+         <a href="https://...">See more →</a> -->
     <div class="grid">
       <div class="card">
-        <blockquote>"[A short quote from a principal, mentor, or colleague. Ask their permission first.]"</blockquote>
-        <div class="who">[Name] · [Role], [School]</div>
+        <div class="eyebrow">App · In development</div>
+        <h3>Tibi <span class="zh" lang="zh-Hant">提筆</span></h3>
+        <p class="meta">Flutter · Android</p>
+        <p>A handwriting app for Chinese learners. Instead of drilling stroke order on flashcards, you write characters in context, filling blanks in sentences built only from characters you already know.</p>
       </div>
       <div class="card">
-        <blockquote>"[Another quote, maybe from a parent or student, kept anonymous.]"</blockquote>
-        <div class="who">[Parent of a Grade 7 student]</div>
+        <div class="eyebrow">Translation · Weekly</div>
+        <h3>International View</h3>
+        <p class="meta">Washington High School · 2024 – present</p>
+        <p>English–Chinese translation and proofreading for a weekly global news curriculum used by schools across the region.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Curriculum · Ministry of Education</div>
+        <h3>Digital Mandarin curriculum</h3>
+        <p class="meta">National Academy for Educational Research · 2023</p>
+        <p>Wrote and designed a digital Mandarin course for learners in Taiwan, drawing on corpus tools and AI-assisted design.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Exchange program</div>
+        <h3>Cross-border classroom exchanges</h3>
+        <p class="meta">2024 – present</p>
+        <p>Live online exchanges connecting my students with high schools in Japan, Malaysia, and the USA.</p>
       </div>
     </div>
-    <p class="meta" style="margin-top:1.25rem;color:var(--muted)">Full references available on request.</p>
+
+    <h3 class="sub">Hobbies</h3>
+    <!-- Replace these with your hobbies. One card each. An emoji at the start works well. -->
+    <div class="grid">
+      <div class="card">
+        <h3>[🎵 Hobby one]</h3>
+        <p>[A sentence or two: what you do, and what you get out of it.]</p>
+      </div>
+      <div class="card">
+        <h3>[🌏 Hobby two]</h3>
+        <p>[A sentence or two.]</p>
+      </div>
+      <div class="card">
+        <h3>[📚 Hobby three]</h3>
+        <p>[A sentence or two.]</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -393,17 +437,16 @@
   <div class="wrap">
     <div class="eyebrow">Contact</div>
     <h2>Let's talk</h2>
-    <p>I'm looking for [subject / grade] positions starting [Month Year]. I'd love to hear from you.</p>
+    <p>I'm exploring teaching positions at international schools in Taiwan, Japan, and beyond. I'd love to hear from you.</p>
     <div class="buttons">
-      <a class="btn" href="mailto:[you@yourdomain.com]">[you@yourdomain.com]</a>
-      <a class="btn ghost" href="[https://linkedin.com/in/your-profile]">LinkedIn</a>
-      <a class="btn ghost" href="cv.pdf" download>CV (PDF)</a>
+      <a class="btn" href="mailto:sdcameron99@gmail.com">sdcameron99@gmail.com</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/sean-cameron-aa4a3a197">LinkedIn</a>
     </div>
   </div>
 </section>
 
 <footer>
-  © <span id="year"></span> [Your Name] · sdcameron.com
+  © <span id="year"></span> Sean Cameron · sdcameron.com
 </footer>
 
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
