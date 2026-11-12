@@ -311,7 +311,9 @@
   .timeline .where { color: var(--muted); font-style: italic; font-size: .97rem; margin: .1rem 0 .45rem; }
   .timeline ul { margin: 0; padding-left: 1.3rem; }
   .timeline ul li { margin-bottom: .25rem; }
-  .timeline ul li::marker { content: "❧  "; color: var(--accent); font-size: .85em; }
+  .timeline ul li::marker, .fleurons li::marker { content: "❧  "; color: var(--accent); font-size: .85em; }
+  .fleurons { margin: 0 0 1rem; padding-left: 1.3rem; }
+  .fleurons li { margin-bottom: .3rem; }
 
   /* Roles that open a story */
   .verso .opens { cursor: pointer; margin-left: -14px; padding-left: 11px; border-left: 3px solid transparent; transition: background .2s, border-color .2s; }
@@ -1093,7 +1095,7 @@
   const editing = new URLSearchParams(location.search).has('edit');
   if (editing) {
     const TEXT = 'h1,h2,h3,p,li,dt,dd,figcaption,.when,.where,.meta,.chapter-no,.title-kicker,.org,.name,.lbl,.big:not(.certs-count),.finis,a.btn,.row span';
-    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.grid,.plates,.albums,.slides,.certs,.tags,.places,.countries,.stats,.buttons';
+    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.fleurons,.grid,.plates,.albums,.slides,.certs,.tags,.places,.countries,.stats,.buttons';
     const WRAP = '.verso,.recto,.fill,.prose';
     const SKIP = '.subnav,.folio,.pins,script';
     const kind = el => {

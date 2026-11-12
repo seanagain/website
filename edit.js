@@ -22,6 +22,7 @@
     'Paragraph': '<p>New paragraph. Click to type.</p>',
     'Heading': '<h3 class="sub">New heading</h3>',
     'Picture': '<figure class="pic" style="width:70%"><div class="ph">Picture</div><figcaption>Caption</figcaption></figure>',
+    'Bullet list': '<ul class="fleurons"><li>First point</li><li>Second point</li></ul>',
     'Card': '<div class="card"><h3>Title</h3><p>A sentence or two.</p></div>',
     'Quote': '<blockquote class="quote-block"><p>“A memorable line.”</p><p class="meta">Who said it</p></blockquote>',
     'Divider': '<div class="orn">❦</div>',
@@ -210,7 +211,7 @@
   function nextBlock(el) { let p = el.nextElementSibling; while (p && !isBlock(p)) p = p.nextElementSibling; return p; }
   // Keep the saved file tidy: each block on its own line with the same indentation
   const isWS = n => n && n.nodeType === 3 && /^\s*$/.test(n.data);
-  const indentOf = el => isWS(el.previousSibling) ? el.previousSibling.data : '\n';
+  const indentOf = el => isWS(el.previousSibling) ? el.previousSibling.data : '';
   function srcDetach(S) { if (isWS(S.previousSibling)) S.previousSibling.remove(); S.remove(); }
   function srcAfter(ref, S) { const ws = indentOf(ref); ref.after(S); S.before(srcDoc.createTextNode(ws)); }
   function srcPrepend(box, S) {
@@ -550,7 +551,29 @@
     });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') { select(null); if (document.activeElement) document.activeElement.blur(); }
-      if (e.key === 'Enter' && !e.shiftKey && e.target.isContentEditable) { e.preventDefault(); e.target.blur(); }
+      const t = e.target;
+      const bullet = t.isContentEditable && t.matches('li') && t.parentElement.matches('.fleurons, .timeline ul') ? t : null;
+      // In a bullet list, Enter starts a new bullet and Backspace on an empty bullet removes it
+      if (bullet && e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const html = '<li>New point</li>';
+        if (insertPair(bullet, makeNode(html, document), makeNode(html, srcDoc))) { current.focus(); selectAll(current); }
+        return;
+      }
+      if (bullet && e.key === 'Backspace' && !bullet.textContent.trim()) {
+        const prev = prevBlock(bullet);
+        if (!prev && !nextBlock(bullet)) return;
+        e.preventDefault();
+        del(bullet);
+        const to = prev || null;
+        if (to && to.isContentEditable) {
+          to.focus();
+          const r = document.createRange(); r.selectNodeContents(to); r.collapse(false);
+          const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        }
+        return;
+      }
+      if (e.key === 'Enter' && !e.shiftKey && t.isContentEditable) { e.preventDefault(); t.blur(); }
     });
     document.addEventListener('paste', e => {
       if (!e.target.closest || !e.target.closest('.ed-text')) return;
