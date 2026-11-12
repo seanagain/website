@@ -25,7 +25,10 @@
     'Card': '<div class="card"><h3>Title</h3><p>A sentence or two.</p></div>',
     'Quote': '<blockquote class="quote-block"><p>“A memorable line.”</p><p class="meta">Who said it</p></blockquote>',
     'Divider': '<div class="orn">❦</div>',
-    'Button': '<a class="btn" href="https://">Button</a>'
+    'Button': '<a class="btn" href="https://">Button</a>',
+    'Slideshow': '<div class="slideshow"><div class="slides">' +
+      '<figure class="plate"><div class="ph">Photograph</div><figcaption>Caption</figcaption></figure>'.repeat(3) +
+      '</div></div>'
   };
 
   let srcDoc = null;
@@ -258,6 +261,7 @@
     const html = TEMPLATES[type];
     if (!insertPair(after, makeNode(html, document), makeNode(html, srcDoc))) return;
     if (type === 'Picture') { replacePicture(current); return; }
+    if (type === 'Slideshow') { addPictures(current); return; }
     const t = current.matches('.ed-text') ? current : current.querySelector('.ed-text');
     if (t) { t.focus(); selectAll(t); }
   }
@@ -267,13 +271,15 @@
   }
 
   /* pictures */
-  function pickFile() {
+  function pickFiles(multiple) {
     return new Promise(resolve => {
-      const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*';
-      i.onchange = () => resolve(i.files[0] || null);
+      const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.multiple = !!multiple;
+      i.onchange = () => resolve([...i.files]);
       i.click();
     });
   }
+  let picCounter = 0;
+  const newPicName = () => 'pic-' + Date.now().toString(36) + (picCounter++).toString(36) + '.jpg';
   async function shrink(file) {
     const url = URL.createObjectURL(file);
     try {
@@ -286,27 +292,61 @@
     } finally { URL.revokeObjectURL(url); }
   }
   const picTarget = el => el.matches('img') ? el : el.querySelector('img, .ph');
-  async function replacePicture(block) {
-    const file = await pickFile();
-    if (!file) return;
-    let blob;
-    try { blob = await shrink(file); } catch { notice('Can’t use that picture', 'Please choose a JPG or PNG picture.'); return; }
-    const name = 'pic-' + Date.now().toString(36) + '.jpg';
+  // Put a (shrunk) picture into a block; returns a function that undoes it
+  async function setPicture(block, file) {
+    const blob = await shrink(file);
+    const name = newPicName();
     assets.set(name, blob);
     const url = URL.createObjectURL(blob);
-    const alt = (block.querySelector('figcaption') || {}).textContent || 'Photo';
+    const alt = ((block.querySelector('figcaption') || {}).textContent || 'Photo').trim();
     const L = picTarget(block), S = picTarget(src(block));
-    if (!L || !S) return;
+    if (!L || !S) return () => {};
     if (L.matches('img')) {
       const oldL = L.getAttribute('src'), oldS = S.getAttribute('src');
       L.src = url; S.setAttribute('src', name);
-      record(() => { L.setAttribute('src', oldL); S.setAttribute('src', oldS); });
-    } else {
-      const Li = document.createElement('img'); Li.src = url; Li.alt = alt.trim();
-      const Si = srcDoc.createElement('img'); Si.setAttribute('src', name); Si.setAttribute('alt', alt.trim());
-      L.replaceWith(Li); S.replaceWith(Si);
-      record(() => { Li.replaceWith(L); Si.replaceWith(S); });
+      return () => { L.setAttribute('src', oldL); S.setAttribute('src', oldS); };
     }
+    const Li = document.createElement('img'); Li.src = url; Li.alt = alt;
+    const Si = srcDoc.createElement('img'); Si.setAttribute('src', name); Si.setAttribute('alt', alt);
+    L.replaceWith(Li); S.replaceWith(Si);
+    return () => { Li.replaceWith(L); Si.replaceWith(S); };
+  }
+  const BAD_PIC = ['Can’t use that picture', 'Please choose JPG or PNG pictures. (iPhone HEIC photos may need to be saved as JPG first.)'];
+
+  async function replacePicture(block) {
+    const [file] = await pickFiles(false);
+    if (!file) return;
+    try { record(await setPicture(block, file)); } catch { notice(...BAD_PIC); }
+  }
+
+  // Slideshows and albums: choose several pictures at once. They fill the empty
+  // slots first, then new slots are added at the end.
+  async function addPictures(block) {
+    const files = await pickFiles(true);
+    if (!files.length) return;
+    const box = block.querySelector('.slides');
+    if (!box) return;
+    const undos = [];
+    let bad = 0;
+    toast('Adding ' + files.length + ' picture' + (files.length === 1 ? '' : 's') + '…');
+    for (const file of files) {
+      let slot = [...box.children].find(f => isBlock(f) && f.querySelector('.ph'));
+      if (!slot) {
+        const last = [...box.children].filter(isBlock).pop();
+        if (!last) break;
+        const L = last.cloneNode(true), S = src(last).cloneNode(true);
+        [L, ...L.querySelectorAll('*')].forEach(x => x.classList.remove('ed-cur', 'edited', 'ed-dragging'));
+        [L, S].forEach(f => { const c = f.querySelector('figcaption'); if (c) c.textContent = 'Caption'; });
+        last.after(L); srcAfter(src(last), S);
+        try { tagPair(L, S); } catch { L.remove(); srcDetach(S); break; }
+        undos.push(() => { L.remove(); srcDetach(S); });
+        slot = L;
+      }
+      try { undos.push(await setPicture(slot, file)); } catch { bad++; }
+    }
+    if (undos.length) record(() => undos.reverse().forEach(u => u()));
+    if (bad) notice(...BAD_PIC);
+    else toast('Done. Click a caption to type, or drag photos to reorder.');
   }
 
   async function editLink(el) {
@@ -419,6 +459,7 @@
     has('dup').hidden = el.matches('.map');
     has('add').title = listLike(el) ? 'Add another like this' : 'Add below';
     has('pic').hidden = !picTarget(el) || !!el.closest('.map') || el.matches('.map');
+    has('pic').title = el.matches('.slideshow, .album') ? 'Add pictures (you can choose several)' : 'Replace picture';
     has('link').hidden = !(el.matches('a') || (el.querySelector('a.btn') && el.querySelectorAll('a').length === 1));
     has('pin').hidden = !el.closest('.places');
     tools.hidden = false;
@@ -473,7 +514,7 @@
       case 'down': move(el, 1); break;
       case 'add': listLike(el) ? dup(el) : (menu.hidden ? showAddMenu() : hideMenu()); break;
       case 'dup': dup(el); break;
-      case 'pic': replacePicture(el); break;
+      case 'pic': el.matches('.slideshow, .album') ? addPictures(el) : replacePicture(el); break;
       case 'link': editLink(el); break;
       case 'pin': editPin(el); break;
       case 'del': del(el); break;

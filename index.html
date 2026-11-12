@@ -418,6 +418,29 @@
   body.editing .albums { grid-template-columns: 1fr; gap: 28px; }
   body.editing .album .slides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: .6rem; }
 
+  /* Slideshow blocks (add one anywhere in edit mode with ＋ → Slideshow) */
+  .slideshow { margin: 1.4rem 0; }
+  .slideshow .slides { display: none; }
+  body.editing .slideshow .slides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 12px; border: 1px dashed var(--line); }
+  body.editing .ss-view { display: none; }
+  .ss-stage { position: relative; cursor: zoom-in; }
+  .ss-stage img, .ss-stage .ph {
+    display: grid; place-items: center; width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    border: 6px solid color-mix(in srgb, var(--paper) 55%, #fff 45%); box-shadow: 0 2px 6px rgba(0,0,0,.28);
+    background: var(--grain), rgba(120,80,30,.14); color: var(--muted); font-style: italic; filter: sepia(.1);
+  }
+  .ss-cap { text-align: center; font-style: italic; color: var(--muted); font-size: .95rem; margin-top: .55rem; min-height: 1.5em; }
+  .ss-nav { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: .35rem; }
+  .ss-nav button {
+    width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: transparent;
+    color: var(--accent); font: 1.3rem/1 Georgia, serif; cursor: pointer; display: grid; place-items: center;
+  }
+  .ss-nav button:hover { background: rgba(120,80,30,.08); }
+  .ss-dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; max-width: 60%; }
+  .ss-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .ss-dots i.on { background: var(--accent); }
+  .ss-view.single .ss-nav { display: none; }
+
   /* Slideshow */
   .lightbox {
     position: fixed; inset: 0; z-index: 900; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -1254,16 +1277,15 @@
       [{ opacity: 0, transform: 'translateX(' + (dir * 40) + 'px)' }, { opacity: 1, transform: 'none' }],
       { duration: 280, easing: 'ease-out' });
   }
-  function openAlbum(album) {
-    lbSlides = [...album.querySelectorAll('.slides > figure')];
+  function openSlides(list, title, start) {
+    lbSlides = list;
     if (!lbSlides.length) return;
     lbReturn = document.activeElement;
-    const title = album.querySelector('h3') ? album.querySelector('h3').textContent : '';
-    lb.querySelector('.lb-title').textContent = title;
-    lb.setAttribute('aria-label', title + ' photographs');
+    lb.querySelector('.lb-title').textContent = title || '';
+    lb.setAttribute('aria-label', (title ? title + ' ' : '') + 'photographs');
     lb.classList.toggle('single', lbSlides.length < 2);
     lb.hidden = false; document.body.classList.add('lb-open');
-    lbShow(0, 0);
+    lbShow(start || 0, 0);
     if (!reduce) lb.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 250 });
     lb.querySelector('.lb-close').focus();
   }
@@ -1302,7 +1324,47 @@
     count.className = 'album-count';
     count.textContent = slides.length + (slides.length === 1 ? ' photograph' : ' photographs');
     (title || cover).after(count);
-    album.addEventListener('click', () => { if (!document.body.classList.contains('editing')) openAlbum(album); });
+    album.addEventListener('click', () => {
+      if (!document.body.classList.contains('editing')) openSlides([...album.querySelectorAll('.slides > figure')], title ? title.textContent : '', 0);
+    });
+  });
+
+  // Slideshow blocks: one photo at a time on the page; click it for the full-screen view
+  document.querySelectorAll('.slideshow').forEach(ss => {
+    const slides = [...ss.querySelectorAll('.slides > figure')];
+    if (!slides.length) return;
+    const view = document.createElement('div');
+    view.className = 'ss-view' + (slides.length < 2 ? ' single' : '');
+    view.innerHTML = '<div class="ss-stage" role="button" tabindex="0" aria-label="View full screen"></div><div class="ss-cap"></div>' +
+      '<div class="ss-nav"><button type="button" aria-label="Previous photo">‹</button><span class="ss-dots"></span><button type="button" aria-label="Next photo">›</button></div>';
+    ss.prepend(view);
+    const stage = view.querySelector('.ss-stage'), cap = view.querySelector('.ss-cap'), dots = view.querySelector('.ss-dots');
+    const [prevB, nextB] = view.querySelectorAll('.ss-nav button');
+    slides.forEach(() => dots.append(document.createElement('i')));
+    let at = 0;
+    const show = (n, dir) => {
+      at = (n + slides.length) % slides.length;
+      const f = slides[at], img = f.querySelector('img');
+      stage.innerHTML = '';
+      if (img) { const c = new Image(); c.src = img.getAttribute('src'); c.alt = img.alt || ''; stage.append(c); }
+      else { const ph = document.createElement('div'); ph.className = 'ph'; ph.textContent = 'Photograph coming soon'; stage.append(ph); }
+      const fc = f.querySelector('figcaption');
+      cap.innerHTML = fc ? fc.innerHTML : '';
+      [...dots.children].forEach((d, k) => d.classList.toggle('on', k === at));
+      if (dir && !reduce) stage.animate([{ opacity: 0, transform: 'translateX(' + (dir * 24) + 'px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'ease-out' });
+    };
+    prevB.addEventListener('click', () => show(at - 1, -1));
+    nextB.addEventListener('click', () => show(at + 1, 1));
+    const big = () => { if (!document.body.classList.contains('editing')) openSlides(slides, '', at); };
+    stage.addEventListener('click', big);
+    stage.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); big(); } });
+    let sx2 = 0;
+    stage.addEventListener('touchstart', e => { sx2 = e.touches[0].clientX; e.stopPropagation(); }, { passive: true });
+    stage.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - sx2;
+      if (Math.abs(dx) > 40) { e.stopPropagation(); show(at + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); }
+    }, { passive: true });
+    show(0, 0);
   });
 
   function folio(i, num, prev, next) {
