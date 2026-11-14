@@ -100,6 +100,8 @@
     .ed-card button.ghost { background: transparent; color: #2B2118; border-color: #A08A68; }
     .ed-card .ed-err { color: #8E2B20; min-height: 1.3em; margin: 0; font-style: italic; }
     .ed-card a { color: #7A2E22; }
+    .ed-pagechip { align-self: center; margin: 0 0 .8rem; padding: 4px 12px; border-radius: 999px; cursor: pointer; border: 1px solid #3E7D52; background: #E6F0E6; color: #24502F; font-size: 13px; }
+    .ed-pagechip.off { border-color: #8E2B20; background: #F6E1DC; color: #7A2E22; }
     .ed-toast { position: fixed; left: 50%; bottom: 76px; transform: translateX(-50%); z-index: 1004; background: #F1E5CB; color: #2B2118; padding: 8px 14px; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,.35); font-style: italic; }
     @media (max-width: 820px) { .stage { padding-bottom: 130px; } }
   `;
@@ -378,6 +380,31 @@
   }
 
   /* dragging to reorder */
+  // Drafts: kept in the page but hidden from visitors
+  function toggleDraft(el, after) {
+    const S = src(el), on = !el.hasAttribute('data-draft');
+    const set = v => [el, S].forEach(x => v ? x.setAttribute('data-draft', '') : x.removeAttribute('data-draft'));
+    set(on);
+    if (after) after();
+    record(() => { set(!on); if (after) after(); });
+    toast(on ? 'Hidden from visitors. It stays here for you to finish.' : 'Visible to visitors again.');
+  }
+  // Sub-pages (a story, or a section in a contents list) get a switch at the top
+  function pageSwitches() {
+    document.querySelectorAll('.chapter').forEach(ch => {
+      const pages = [...document.querySelectorAll('.recto')].filter(r => r.closest('.chapter') === ch && !r.closest('.leaf'));
+      pages.slice(1).forEach(r => {
+        if (!r.dataset.sub) return;
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'ed-ui ed-pagechip';
+        const label = () => { b.textContent = r.hasAttribute('data-draft') ? '🙈 Hidden from visitors: click to publish this page' : '👁 Visible to visitors: click to hide this page'; b.classList.toggle('off', r.hasAttribute('data-draft')); };
+        label();
+        b.addEventListener('click', () => toggleDraft(r, label));
+        r.prepend(b);
+      });
+    });
+  }
+
   function startDrag(e, el) {
     e.preventDefault();
     busy = true; hideMenu();
@@ -443,6 +470,7 @@
     <button type="button" data-a="pic" title="Replace picture">🖼</button>
     <button type="button" data-a="link" title="Change link">🔗</button>
     <button type="button" data-a="pin" title="Set map location">📍</button>
+    <button type="button" data-a="draft" title="Hide from visitors">👁</button>
     <button type="button" data-a="del" title="Delete">🗑</button>`;
   const resizer = document.createElement('div'); resizer.className = 'ed-resize ed-ui'; resizer.hidden = true; resizer.title = 'Drag to resize';
   const menu = document.createElement('div'); menu.className = 'ed-menu ed-ui'; menu.hidden = true;
@@ -463,6 +491,7 @@
     has('pic').title = el.matches('.slideshow, .album') ? 'Add pictures (you can choose several)' : 'Replace picture';
     has('link').hidden = !(el.matches('a') || (el.querySelector('a.btn') && el.querySelectorAll('a').length === 1));
     has('pin').hidden = !el.closest('.places');
+    has('draft').title = el.hasAttribute('data-draft') ? 'Show to visitors again' : 'Hide from visitors (keep as a draft)';
     tools.hidden = false;
     position();
   }
@@ -519,6 +548,7 @@
       case 'link': editLink(el); break;
       case 'pin': editPin(el); break;
       case 'del': del(el); break;
+      case 'draft': toggleDraft(el); select(el); break;
     }
   });
   resizer.addEventListener('pointerdown', startResize);
@@ -587,6 +617,7 @@
     }, true);
     window.addEventListener('beforeunload', e => { if (dirty()) { e.preventDefault(); e.returnValue = ''; } });
     bar();
+    pageSwitches();
     requestAnimationFrame(position);
     toast('Click any text to type, or click a block for its toolbar.');
   }
@@ -622,6 +653,10 @@
     return html
       .replace(/&nbsp;/g, ' ')
       .replace(/\s(?:data-eid|data-ek|contenteditable|spellcheck)="[^"]*"/g, '')
+      // a new line typed in a paragraph can arrive as <div>…</div>, which a paragraph can't hold
+      .replace(/<div[^>]*>\s*<br\s*\/?>\s*<\/div>/gi, '<br>')
+      .replace(/<div[^>]*>/gi, '<br>').replace(/<\/div>/gi, '')
+      .replace(/^(\s*<br\s*\/?>)+/i, '')
       .replace(/(<br\s*\/?>\s*)+$/i, '')
       .trim();
   }

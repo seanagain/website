@@ -21,6 +21,17 @@
 <title>Sean Cameron | Bilingual Educator</title>
 <meta name="description" content="Sean Cameron: bilingual (English/Mandarin) educator and researcher based in Taiwan, with experience in curriculum design, ESL, and second-language acquisition.">
 
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#3F2A1B">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sdcameron.com/">
+<meta property="og:title" content="Sean Cameron | Bilingual Educator">
+<meta property="og:description" content="Bilingual (English/Mandarin) high school teacher in Taiwan. Washington, DC teaching license (ESOL, Social Studies, Chinese), M.A. in Chinese.">
+<meta property="og:image" content="https://sdcameron.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=IM+Fell+English:ital@0;1&amp;display=swap" rel="stylesheet">
@@ -330,6 +341,31 @@
   .story .sub { margin-top: 1.4rem; }
   .back-roles { display: none; }
 
+  /* At a Glance */
+  .title-page .oval { width: 150px; margin: 0 auto; }
+  .title-page .caption { margin: .9rem 0 1.4rem; }
+  .title-page .quote-block { display: inline-block; text-align: left; margin: .2rem 0 1.2rem; }
+  .title-page .quote-block p:empty { display: none; }
+  .glance .chapter-head { margin-bottom: .6rem; }
+  .glance .stats { margin: .4rem 0 1rem; gap: 2.2rem; }
+  .glance .stats .big { font-size: 2.3rem; }
+  .facts-list { margin: 0; }
+  .facts-list .fact { display: grid; grid-template-columns: 7.2rem 1fr; gap: .1rem 1rem; padding: .42rem 0; border-bottom: 1px dotted var(--line); }
+  .facts-list .fact:last-child { border-bottom: 0; }
+  .facts-list dt { font-variant: small-caps; letter-spacing: .08em; color: var(--accent); }
+  .facts-list dd { margin: 0; line-height: 1.45; }
+  .facts-list dd .meta { font-size: .9rem; }
+  .glance-buttons { justify-content: center; margin-top: 1.2rem; }
+  @media (max-width: 480px) { .facts-list .fact { grid-template-columns: 1fr; } }
+
+  /* Drafts: hidden from visitors, labelled in edit mode */
+  body.editing [data-draft] { background-image: repeating-linear-gradient(45deg, rgba(142,43,32,.06) 0 8px, transparent 8px 16px); }
+  body.editing [data-draft]:not(.recto) { position: relative; }
+  body.editing [data-draft]:not(.recto)::before {
+    content: "Hidden from visitors"; position: absolute; top: -.7rem; right: 0; z-index: 3; padding: 0 6px; border-radius: 3px; pointer-events: none;
+    font: 600 .72rem/1.6 "EB Garamond", serif; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #8E2B20;
+  }
+
   /* Entries & cards */
   .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
   .card { border: 3px double var(--line); padding: 14px 16px; }
@@ -569,16 +605,15 @@
       <div class="left" id="left"></div>
       <div class="right" id="right">
 
-        <!-- ===================== CHAPTER: HOME (title page) ===================== -->
-        <section class="chapter" id="home" data-tab="Home">
+        <!-- ===================== CHAPTER: AT A GLANCE (first spread) =====================
+             Left: title page. Right: the key facts recruiters look for.
+             Each fact is one row; in edit mode you can add, reorder or
+             hide rows (👁). -->
+        <section class="chapter" id="home" data-tab="At a Glance">
           <div class="verso">
-            <div class="fill frontis center">
+            <div class="fill center title-page">
               <div class="oval"><img src="photo.jpg" alt="Photo of Sean Cameron"></div>
               <p class="caption">The legend himself...</p>
-            </div>
-          </div>
-          <div class="recto">
-            <div class="fill center title-page">
               <div class="title-kicker">The Personal Website of</div>
               <h1>Sean Cameron</h1>
               <div class="orn">❦</div>
@@ -587,7 +622,37 @@
               <div class="buttons">
                 <a class="btn ghost" href="https://www.linkedin.com/in/sean-cameron-aa4a3a197">LinkedIn</a>
                 <a class="btn" href="#contact">Get in touch</a>
+                <a class="btn" href="cv.pdf" download>Download CV</a>
               </div>
+            </div>
+          </div>
+          <div class="recto glance">
+            <div class="chapter-head">
+              <div class="chapter-no">For Recruiters</div>
+              <h2>At a Glance</h2>
+              <div class="orn">❦</div>
+            </div>
+            <div class="stats">
+              <div><span class="big">2+</span><span class="lbl">years teaching</span></div>
+              <div><span class="big">3</span><span class="lbl">endorsements</span></div>
+              <div><span class="big">6</span><span class="lbl">languages</span></div>
+            </div>
+            <dl class="facts-list">
+              <div class="fact"><dt>Seeking</dt><dd>Secondary Social Studies, EAL / ESOL, or Chinese (Mandarin)</dd></div>
+              <div class="fact"><dt>Licensure</dt><dd>Washington, DC teaching license (complete Jan 2027)<br><span class="meta">Endorsements: ESOL · Social Studies · Chinese</span></dd></div>
+              <div class="fact"><dt>Now</dt><dd>Bilingual Experimental Program Instructor, Washington High School, Taichung (2024 – present)</dd></div>
+              <div class="fact"><dt>Grade levels</dt><dd>Grades 7–12 (junior high &amp; high school)</dd></div>
+              <div class="fact"><dt>Education</dt><dd>M.A. Chinese, Brigham Young University (2024)<br>B.A. Linguistics &amp; Chinese, BYU (2023)</dd></div>
+              <div class="fact"><dt>Languages</dt><dd>English (native) · Mandarin (C1) · German (B2) · Japanese, Indonesian &amp; Cantonese (A2)</dd></div>
+              <div class="fact"><dt>Highlights</dt><dd>Mandarin curriculum prototypes published as official materials by Taiwan’s National Academy for Educational Research · Model UN coach (Yale MUN Taipei)</dd></div>
+              <div class="fact"><dt>Beyond class</dt><dd>Model UN · international school exchanges · Rescue Diver (73 dives) · photography</dd></div>
+              <div class="fact"><dt>Passport</dt><dd>United States · based in Taichung, Taiwan</dd></div>
+              <div class="fact" data-draft><dt>Available</dt><dd>[Month Year]</dd></div>
+              <div class="fact"><dt>References</dt><dd>Available on request</dd></div>
+            </dl>
+            <div class="buttons glance-buttons">
+              <a class="btn" href="cv.pdf" download>Download CV (PDF)</a>
+              <a class="btn ghost" href="cv.html">View CV online</a>
             </div>
           </div>
         </section>
@@ -606,7 +671,7 @@
           </div>
           <div class="recto">
             <div class="prose">
-              <p>As a student in Taiwan, I made a friend named Pierre, a pizza truck owner who had immigrated from France. But Pierre was no ordinary pizza chef.Every pepperoni, every olive, and every mushroom was placed with intention. You could taste the passion in every bite. Though Pierre was a foreigner, his dedication to his craft built a community, and when he announced his retirement, people came in droves for one last taste. When I asked him how he had mastered his craft, he said the community around him inspired him to do better and be better.</p>
+              <p>As a student in Taiwan, I made a friend named Pierre, a pizza truck owner who had immigrated from France. But Pierre was no ordinary pizza chef. Every pepperoni, every olive, and every mushroom was placed with intention. You could taste the passion in every bite. Though Pierre was a foreigner, his dedication to his craft built a community, and when he announced his retirement, people came in droves for one last taste. When I asked him how he had mastered his craft, he said the community around him inspired him to do better and be better.</p>
               <p>One of the greatest dangers we face, I believe, is complacency. It is easy to stay passive in a chaotic world, thinking we have nothing more to learn or do. A few close brushes with death at an early age taught me that our time is precious. So in every role I've had, whether translator, teacher, or student, I try to emulate Pierre: persistent in my work, and learning from the people around me all the way.</p>
               <p>Of all the teaching styles, I align mostly with the affective-humanistic philosophy. Research has consistently shown the value of emotion and social connection in the learning process. In my classroom, that means building a community where students learn from one another across languages and cultures, and they develop a curiosity that transforms them into lifelong learners.</p>
             </div>
@@ -628,7 +693,7 @@
             <ol class="timeline">
               <li data-open="washington">
                 <div class="when">Aug 2024 – Present</div>
-                <h3>Bilingual  Experimental Program Instructor</h3>
+                <h3>Bilingual Experimental Program Instructor</h3>
                 <div class="where">Washington High School <span class="zh" lang="zh-Hant">華盛頓高級中學</span> · Taichung, Taiwan</div>
                 <ul>
                   <li>Design curriculum and teach high school courses in English and Mandarin: Business, International View (SDGs), Model UN, Music, and National Defense.</li>
@@ -699,13 +764,15 @@
             <div class="story-head">
               <div class="when">Aug 2024 – Present</div>
               <h2>Washington High School</h2>
-              <p class="meta">Bilingual Program Instructor · Taichung, Taiwan</p>
+              <p class="meta">Bilingual Experimental Program Instructor · Taichung, Taiwan</p>
               <div class="orn">❦</div>
             </div>
             <h3 class="sub">Model United Nations</h3>
-            <p>As a coach for the Model United Nations class, I worked with Geography, History, and Civics teachers to help students move beyond book knowledge and become active world citizens. We created an environment of serious academic research, argumentation, and public speaking that enabled students to analyze international issues from multiple angles.</p><div><br>Subsequently, I accompanied some of these students to Yale MUN in Taipei where I served as their mentor. </div><div class="slideshow"><div class="slides"><figure class="plate"><img src="pic-mwefhb0z1.jpg" alt="Caption"><figcaption>Caption</figcaption></figure><figure class="plate"><img src="pic-mwefphoz2.jpg" alt="Caption"><figcaption>Caption</figcaption></figure><figure class="plate"><img src="pic-mwefpoji3.jpg" alt="Caption"><figcaption>Caption</figcaption></figure><figure class="plate"><img src="pic-mwefq26c4.jpg" alt="Caption"><figcaption>Caption</figcaption></figure></div></div>
-            <h3 class="sub">Evening TOEIC</h3>
-            <p>[A few sentences about the evening TOEIC classes: who they were for, how you taught them, and how the students did.]</p>
+            <p>As a coach for the Model United Nations class, I worked with Geography, History, and Civics teachers to help students move beyond book knowledge and become active world citizens. We created an environment of serious academic research, argumentation, and public speaking that enabled students to analyze international issues from multiple angles.</p>
+            <p>Subsequently, I accompanied some of these students to Yale MUN in Taipei, where I served as their mentor.</p>
+            <div class="slideshow"><div class="slides"><figure class="plate"><img src="pic-mwefhb0z1.jpg" alt="Model United Nations at Washington High School"><figcaption>Model United Nations, Washington High School</figcaption></figure><figure class="plate"><img src="pic-mwefphoz2.jpg" alt="Model United Nations at Washington High School"><figcaption>Model United Nations, Washington High School</figcaption></figure><figure class="plate"><img src="pic-mwefpoji3.jpg" alt="Model United Nations at Washington High School"><figcaption>Model United Nations, Washington High School</figcaption></figure><figure class="plate"><img src="pic-mwefq26c4.jpg" alt="Model United Nations at Washington High School"><figcaption>Model United Nations, Washington High School</figcaption></figure></div></div>
+            <h3 class="sub" data-draft>Evening TOEIC</h3>
+            <p data-draft>[A few sentences about the evening TOEIC classes: who they were for, how you taught them, and how the students did.]</p>
           </div>
 
           <!-- ---------- NAER story ---------- -->
@@ -716,12 +783,15 @@
               <p class="meta">Mandarin Curriculum Design Intern · Taipei, Taiwan</p>
               <div class="orn">❦</div>
             </div>
-            <p>[A few sentences about the digital Mandarin curriculum you designed: who it's for and what makes it different.]</p>
+            <p>As an intern at the Academy’s Language Education and Compilation Research Center <span class="zh" lang="zh-Hant">語文教育及編譯研究中心</span>, I designed a digital curriculum for learners of Mandarin. I built the lessons as interactive online prototypes, and the Academy went on to publish them as part of its official learning materials.</p>
+            <p>Along the way I consulted on the Academy’s language corpus tools, and learned a great deal about how AI tools and language corpora can shape curriculum design.</p>
             <h3 class="sub">Curriculum prototypes</h3>
-            <p>[One line introducing the prototypes, which were built with Gamma, an AI presentation tool.]</p>
+            <p>Each prototype opens in a new tab.</p>
             <div class="buttons">
-              <a class="btn ghost" href="https://gamma.app" target="_blank" rel="noopener">[Prototype 1]</a>
-              <a class="btn ghost" href="https://gamma.app" target="_blank" rel="noopener">[Prototype 2]</a>
+              <a class="btn ghost" href="https://gamma.app/docs/-zygvfgqihrfun22" target="_blank" rel="noopener">Lesson prototype I</a>
+              <a class="btn ghost" href="https://gamma.app/docs/-6wttzbeg13mowl8" target="_blank" rel="noopener">Lesson prototype II</a>
+              <a class="btn ghost" href="https://gamma.app/docs/-1t1gzux15fc50wu" target="_blank" rel="noopener">Lesson prototype III</a>
+              <a class="btn ghost" href="https://gamma.app/docs/KTV--5juql0cv8do1nax" target="_blank" rel="noopener">Lesson prototype IV: KTV</a>
             </div>
           </div>
         </section>
@@ -764,12 +834,12 @@
             <div class="fill center">
               <div class="chapter-head"><h2>From My Studies</h2><div class="orn">❦</div></div>
               <p>Behind a few of these lines are research projects, speeches, and some of my favourite memories.</p>
-              <p class="meta">Choose an entry marked “Read more ❧” on the left page.</p>
+              <p class="meta">Where you see “Read more ❧” on the left page, there’s a story to tell.</p>
             </div>
           </div>
 
           <!-- ---------- Master's story ---------- -->
-          <div class="recto story" data-sub="Master's degree" data-key="ma">
+          <div class="recto story" data-sub="Master's degree" data-key="ma" data-draft>
             <div class="story-head">
               <div class="when">2022 – 2024</div>
               <h2>Master of Arts, Chinese</h2>
@@ -785,7 +855,7 @@
           </div>
 
           <!-- ---------- NTU summer story ---------- -->
-          <div class="recto story" data-sub="Summer in Taipei" data-key="ntu">
+          <div class="recto story" data-sub="Summer in Taipei" data-key="ntu" data-draft>
             <div class="story-head">
               <div class="when">Summer 2022</div>
               <h2>National Taiwan University</h2>
@@ -916,7 +986,7 @@
               <p class="meta">HTML &amp; CSS · 2026</p>
               <p>A portfolio designed as an antique book, with page turns, bookmark tabs, and a hand-plotted travel map.</p>
             </div>
-            <div class="entry">
+            <div class="entry" data-draft>
               <h3>[Another project]</h3>
               <p class="meta">[What it's built with · year]</p>
               <p>[A sentence or two about what it does and why you made it.]</p>
@@ -924,7 +994,7 @@
           </div>
 
           <!-- ---------- Photography ---------- -->
-          <div class="recto" data-sub="Photography">
+          <div class="recto" data-sub="Photography" data-draft>
             <div class="chapter-head"><h2>Photography</h2><div class="orn">❦</div></div>
             <p class="center">[A sentence about your photography: what you like to shoot, and with what camera.]</p>
             <!-- Each album opens as a slideshow; its first photo is the cover.
@@ -1046,6 +1116,7 @@
               <p class="center" style="font-size:1.12rem">I'm exploring teaching positions at international schools in Taiwan, Japan, and beyond. I'd love to hear from you.</p>
               <div class="buttons" style="justify-content:center;margin-top:1.4rem">
                 <a class="btn" href="mailto:sean@sdcameron.com">sean@sdcameron.com</a>
+                <a class="btn ghost" href="cv.pdf" download>Download CV</a>
                 <a class="btn ghost" href="https://www.linkedin.com/in/sean-cameron-aa4a3a197">LinkedIn</a>
               </div>
             </div>
@@ -1094,7 +1165,7 @@
   const editing = new URLSearchParams(location.search).has('edit');
   if (editing) {
     const TEXT = 'h1,h2,h3,p,li,dt,dd,figcaption,.when,.where,.meta,.chapter-no,.title-kicker,.org,.name,.lbl,.big:not(.certs-count),.finis,a.btn,.row span';
-    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.fleurons,.grid,.plates,.albums,.slides,.certs,.tags,.places,.countries,.stats,.buttons';
+    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.fleurons,.facts-list,.grid,.plates,.albums,.slides,.certs,.tags,.places,.countries,.stats,.buttons';
     const WRAP = '.verso,.recto,.fill,.prose';
     const SKIP = '.subnav,.folio,.pins,script';
     const kind = el => {
@@ -1116,6 +1187,9 @@
     const count = tag(document.body, () => n++).length;
     window.BOOK_EDIT = { kind, tag, count, next: () => n++ };
   }
+
+  // Drafts (data-draft) are only shown in edit mode
+  if (!editing) document.querySelectorAll('[data-draft]').forEach(el => el.remove());
 
   const book = document.getElementById('book');
   const cover = document.getElementById('cover');
