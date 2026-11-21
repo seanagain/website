@@ -374,6 +374,16 @@
     font: 600 .72rem/1.6 "EB Garamond", serif; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: #8E2B20;
   }
 
+  /* Teaching materials shelf */
+  .materials { display: grid; gap: 16px; margin-top: .8rem; }
+  .material { border: 3px double var(--line); padding: 14px 16px 12px; }
+  .mat-type { font-variant: small-caps; letter-spacing: .08em; color: var(--accent); font-size: .9rem; }
+  .material h3 { margin: .15rem 0 .1rem; }
+  .material p:last-of-type { margin-bottom: .5rem; }
+  .material .buttons { gap: 8px; }
+  .material .btn { padding: 5px 12px; font-size: .92rem; }
+  .facts-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+
   /* Entries & cards */
   .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
   .card { border: 3px double var(--line); padding: 14px 16px; }
@@ -657,6 +667,7 @@
               <div class="fact"><dt>Beyond class</dt><dd>Model UN · international school exchanges · Rescue Diver (73 dives) · photography</dd></div>
               <div class="fact"><dt>Passport</dt><dd>United States · based in Taichung, Taiwan</dd></div>
               <div class="fact"><dt>Available</dt><dd>1 August 2027</dd></div>
+              <div class="fact"><dt>Materials</dt><dd><a href="#materials">Browse my teaching materials →</a></dd></div>
               <div class="fact"><dt>On request</dt><dd>References · teaching samples (lesson video, unit plans)</dd></div>
             </dl>
             <div class="buttons glance-buttons">
@@ -981,6 +992,38 @@
             </div>
           </div>
 
+          <!-- ---------- Teaching Materials ----------
+               Each card is one resource. In edit mode: ＋ adds another card,
+               📎 attaches a file (PDF, slides, document) to a button, and
+               🔗 links a button to a web address instead. -->
+          <div class="recto" data-sub="Teaching Materials" data-key="materials">
+            <div class="chapter-head"><h2>Teaching Materials</h2><div class="orn">❦</div></div>
+            <p class="center meta">A selection of units and resources I’ve designed. Lesson videos and student work samples are available on request.</p>
+            <div class="materials">
+              <div class="material">
+                <div class="mat-type">Mandarin · Intermediate (Level 4) · 4 units</div>
+                <h3>Taiwanese Culture Units</h3>
+                <p class="meta">National Academy for Educational Research · 2023</p>
+                <p>Task-based units built around a reading and a short writing task, later published as official learning materials.</p>
+                <div class="buttons">
+                  <a class="btn ghost" href="https://gamma.app/docs/-zygvfgqihrfun22" target="_blank" rel="noopener">Classic Novels</a>
+                  <a class="btn ghost" href="https://gamma.app/docs/-6wttzbeg13mowl8" target="_blank" rel="noopener">Taiwanese Opera</a>
+                  <a class="btn ghost" href="https://gamma.app/docs/-1t1gzux15fc50wu" target="_blank" rel="noopener">Temple Culture</a>
+                  <a class="btn ghost" href="https://gamma.app/docs/KTV--5juql0cv8do1nax" target="_blank" rel="noopener">KTV</a>
+                </div>
+              </div>
+              <div class="material" data-draft>
+                <div class="mat-type">[Subject · Grade · Unit plan / slides / worksheet]</div>
+                <h3>[Title of the unit or lesson]</h3>
+                <p class="meta">[Course · School · Year]</p>
+                <p>[One or two sentences: what students learn and do.]</p>
+                <div class="buttons">
+                  <a class="btn ghost" href="#" target="_blank" rel="noopener">Open</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- ---------- Teaching Projects ---------- -->
           <div class="recto" data-sub="Teaching Projects">
             <div class="chapter-head"><h2>Teaching Projects</h2><div class="orn">❦</div></div>
@@ -1196,7 +1239,7 @@
   const editing = new URLSearchParams(location.search).has('edit');
   if (editing) {
     const TEXT = 'h1,h2,h3,p,li,dt,dd,figcaption,.when,.where,.meta,.chapter-no,.title-kicker,.org,.name,.lbl,.big:not(.certs-count),.finis,a.btn,.row span';
-    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.fleurons,.facts-list,.grid,.plates,.albums,.slides,.certs,.tags,.places,.countries,.stats,.buttons';
+    const BOX = '.verso,.recto,.fill,.prose,.timeline,.timeline ul,.fleurons,.facts-list,.materials,.grid,.plates,.albums,.slides,.certs,.tags,.places,.countries,.stats,.buttons';
     const WRAP = '.verso,.recto,.fill,.prose';
     const SKIP = '.subnav,.folio,.pins,script';
     const kind = el => {
@@ -1621,12 +1664,33 @@
   cover.addEventListener('click', () => openBook());
   cover.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBook(); } });
 
-  // In-page links like href="#contact" turn to that chapter
+  // "#contact" means a chapter; "#materials" can also mean a right-hand page (data-key)
+  function findTarget(id) {
+    if (!id) return null;
+    const i = chapters.findIndex(c => c.id === id);
+    if (i >= 0) return { i, k: null };
+    for (let j = 0; j < chapters.length; j++) {
+      const k = chapters[j].rectos.findIndex(r => r.dataset.key === id);
+      if (k >= 0) return { i: j, k };
+    }
+    return null;
+  }
+  function choose(t) {
+    const c = chapters[t.i];
+    c.sub = t.k;
+    c.rectos.forEach((r, j) => r.classList.toggle('current', j === t.k));
+    markSub(c);
+  }
+  // In-page links like href="#contact" turn to that chapter (or page)
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
-    const i = chapters.findIndex(c => c.id === a.getAttribute('href').slice(1));
-    if (i >= 0) { e.preventDefault(); openBook(true); go(i); }
+    const t = findTarget(a.getAttribute('href').slice(1));
+    if (!t) return;
+    e.preventDefault(); openBook(true);
+    if (t.k === null) go(t.i);
+    else if (t.i === current) goSub(t.i, t.k);
+    else { choose(t); go(t.i); }
   });
 
   // Keyboard arrows
@@ -1646,8 +1710,8 @@
   }, { passive: true });
 
   // Visiting sdcameron.com/#experience opens straight to that chapter
-  const start = chapters.findIndex(c => c.id === location.hash.slice(1));
-  if (start >= 0) { current = start; openBook(true); }
+  const start = findTarget(location.hash.slice(1));
+  if (start) { current = start.i; if (start.k !== null) choose(start); openBook(true); }
 
   mobile.addEventListener('change', layout);
   layout();

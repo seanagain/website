@@ -22,6 +22,7 @@
     'Paragraph': '<p>New paragraph. Click to type.</p>',
     'Heading': '<h3 class="sub">New heading</h3>',
     'Picture': '<figure class="pic" style="width:70%"><div class="ph">Picture</div><figcaption>Caption</figcaption></figure>',
+    'Resource card': '<div class="material"><div class="mat-type">Subject · Grade · Type</div><h3>Title</h3><p class="meta">Course · School · Year</p><p>What students learn and do.</p><div class="buttons"><a class="btn ghost" href="#" target="_blank" rel="noopener">Open</a></div></div>',
     'Bullet list': '<ul class="fleurons"><li>First point</li><li>Second point</li></ul>',
     'Card': '<div class="card"><h3>Title</h3><p>A sentence or two.</p></div>',
     'Quote': '<blockquote class="quote-block"><p>“A memorable line.”</p><p class="meta">Who said it</p></blockquote>',
@@ -363,6 +364,33 @@
     record(() => { a.setAttribute('href', oldL); S.setAttribute('href', oldS); });
   }
 
+  // Attach a document to a button: it's saved with the site and the button opens it
+  async function attachFile(el) {
+    const a = el.matches('a') ? el : el.querySelector('a');
+    if (!a) return;
+    const file = await new Promise(resolve => {
+      const i = document.createElement('input'); i.type = 'file';
+      i.accept = '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.key,.pages,.txt,.zip,image/*';
+      i.onchange = () => resolve(i.files[0] || null);
+      i.click();
+    });
+    if (!file) return;
+    if (file.size > 25 * 1024 * 1024) { notice('That file is too big', 'GitHub accepts files up to 25 MB through its upload page. Try saving a smaller PDF, or link to it on Google Drive with 🔗 instead.'); return; }
+    const dot = file.name.lastIndexOf('.');
+    const ext = dot > 0 ? file.name.slice(dot).toLowerCase().replace(/[^.a-z0-9]/g, '') : '';
+    const base = (dot > 0 ? file.name.slice(0, dot) : file.name).toLowerCase()
+      .normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'file';
+    let name = 'doc-' + base + ext, n = 2;
+    while (assets.has(name)) name = 'doc-' + base + '-' + (n++) + ext;
+    assets.set(name, file);
+    const S = src(el).matches('a') ? src(el) : src(el).querySelector('a');
+    const old = [a.getAttribute('href'), S.getAttribute('href')];
+    a.setAttribute('href', URL.createObjectURL(file)); S.setAttribute('href', name);
+    [a, S].forEach(x => { x.setAttribute('target', '_blank'); x.setAttribute('rel', 'noopener'); });
+    record(() => { a.setAttribute('href', old[0]); S.setAttribute('href', old[1]); });
+    toast('Attached ' + file.name + '. It will be included when you save.');
+  }
+
   async function editPin(el) {
     const v = await ask('Map location', 'Paste the coordinates from Google Maps (right-click the place). For example: 25.03, 121.56', el.dataset.lat ? el.dataset.lat + ', ' + el.dataset.lon : '');
     if (v === null) return;
@@ -469,6 +497,7 @@
     <button type="button" data-a="dup" title="Duplicate">⧉</button>
     <button type="button" data-a="pic" title="Replace picture">🖼</button>
     <button type="button" data-a="link" title="Change link">🔗</button>
+    <button type="button" data-a="file" title="Attach a file (PDF, slides, document)">📎</button>
     <button type="button" data-a="pin" title="Set map location">📍</button>
     <button type="button" data-a="draft" title="Hide from visitors">👁</button>
     <button type="button" data-a="del" title="Delete">🗑</button>`;
@@ -491,6 +520,7 @@
     has('pic').title = el.matches('.slideshow, .album') ? 'Add pictures (you can choose several)' : 'Replace picture';
     has('link').hidden = !(el.matches('a') || (el.querySelector('a.btn') && el.querySelectorAll('a').length === 1));
     has('pin').hidden = !el.closest('.places');
+    has('file').hidden = has('link').hidden;
     has('draft').title = el.hasAttribute('data-draft') ? 'Show to visitors again' : 'Hide from visitors (keep as a draft)';
     tools.hidden = false;
     position();
@@ -546,6 +576,7 @@
       case 'dup': dup(el); break;
       case 'pic': el.matches('.slideshow, .album') ? addPictures(el) : replacePicture(el); break;
       case 'link': editLink(el); break;
+      case 'file': attachFile(el); break;
       case 'pin': editPin(el); break;
       case 'del': del(el); break;
       case 'draft': toggleDraft(el); select(el); break;
@@ -707,13 +738,14 @@
     select(null);
     const html = build();
     const pics = [...assets.keys()].filter(n => html.includes('"' + n + '"'));
+    const docs = pics.filter(n => n.startsWith('doc-')).length;
     if (pics.length) {
       const files = [{ name: 'index.html', bytes: new TextEncoder().encode(html) }];
       for (const n of pics) files.push({ name: n, bytes: new Uint8Array(await assets.get(n).arrayBuffer()) });
       downloadBlob(zip(files), 'website-update.zip');
       const { veil, c } = card(`
         <h2>Downloaded!</h2>
-        <p>Your update (the page plus ${pics.length} new picture${pics.length === 1 ? '' : 's'}) was saved as <b>website-update.zip</b>. To publish it:</p>
+        <p>Your update (the page plus ${pics.length - docs ? (pics.length - docs) + ' new picture' + (pics.length - docs === 1 ? '' : 's') : ''}${pics.length - docs && docs ? ' and ' : ''}${docs ? docs + ' file' + (docs === 1 ? '' : 's') : ''}) was saved as <b>website-update.zip</b>. To publish it:</p>
         <ol>
           <li>Find <b>website-update.zip</b> in your Downloads and double-click it to unzip it.</li>
           <li>Open <a href="${GH_UPLOAD}" target="_blank" rel="noopener">GitHub's upload page</a> (it opens in a new tab).</li>
