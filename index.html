@@ -382,7 +382,7 @@
   .material p:last-of-type { margin-bottom: .5rem; }
   .material .buttons { gap: 8px; }
   .material .btn { padding: 5px 12px; font-size: .92rem; }
-  .facts-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+  .entry a, .facts-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
 
   /* Entries & cards */
   .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
@@ -496,6 +496,7 @@
   .ss-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
   .ss-dots i.on { background: var(--accent); }
   .ss-view.single .ss-nav { display: none; }
+  .slideshow.wide .ss-stage img { aspect-ratio: 1280 / 760; object-fit: contain; background: #241B33; }
 
   /* Slideshow */
   .lightbox {
@@ -663,7 +664,7 @@
               <div class="fact"><dt>Grade levels</dt><dd>Grades 7–12 (junior high &amp; high school)</dd></div>
               <div class="fact"><dt>Education</dt><dd>M.A. Chinese, Brigham Young University (2024)<br>B.A. Linguistics &amp; Chinese, BYU (2023)</dd></div>
               <div class="fact"><dt>Languages</dt><dd>English (native) · Mandarin (C1) · German (B2) · Japanese, Indonesian &amp; Cantonese (A2)</dd></div>
-              <div class="fact"><dt>Highlights</dt><dd>Mandarin curriculum prototypes published as official materials by Taiwan’s National Academy for Educational Research · Model UN coach (Yale MUN Taipei)</dd></div>
+              <div class="fact"><dt>Highlights</dt><dd>Mandarin curriculum prototypes published as official materials by Taiwan’s National Academy for Educational Research · Model UN coach (Yale MUN Taipei) · built <a href="#wiserealm">WiseRealm</a>, a free classroom game platform</dd></div>
               <div class="fact"><dt>Beyond class</dt><dd>Model UN · international school exchanges · Rescue Diver (73 dives) · photography</dd></div>
               <div class="fact"><dt>Passport</dt><dd>United States · based in Taichung, Taiwan</dd></div>
               <div class="fact"><dt>Available</dt><dd>1 August 2027</dd></div>
@@ -1024,6 +1025,35 @@
             </div>
           </div>
 
+          <!-- ---------- WiseRealm ---------- -->
+          <div class="recto story" data-sub="WiseRealm" data-key="wiserealm">
+            <div class="story-head">
+              <h2>WiseRealm</h2>
+              <p class="meta">Free classroom games I built · wiserealm.org</p>
+              <div class="orn">❦</div>
+            </div>
+            <p>WiseRealm turns a teacher’s question sets and vocabulary lists into live class games. The game runs on the projector, students join with a code on their iPads, and every right answer moves the game forward. It costs nothing to run.</p>
+            <div class="slideshow wide"><div class="slides">
+                <figure class="plate"><img src="wr-boss-raid.jpg" alt="WiseRealm Boss Raid game"><figcaption>Boss Raid: the whole class teams up, and right answers attack the boss.</figcaption></figure>
+                <figure class="plate"><img src="wr-four-corners.jpg" alt="WiseRealm Four Corners Dash game"><figcaption>Four Corners Dash: run to the right answer before the floor turns to lava.</figcaption></figure>
+                <figure class="plate"><img src="wr-territory.jpg" alt="WiseRealm Territory Battle game"><figcaption>Territory Battle: red team against blue, answering questions to refill your paint.</figcaption></figure>
+                <figure class="plate"><img src="wr-maze.jpg" alt="WiseRealm Mr. C’s Maze game"><figcaption>Mr. C’s Maze: answer to unlock the gates, and stay away from Mr. C.</figcaption></figure>
+                <figure class="plate"><img src="wr-treasure.jpg" alt="WiseRealm Treasure Hunt game"><figcaption>Treasure Hunt: each right answer earns a dig for gold, gems, or traps.</figcaption></figure>
+                <figure class="plate"><img src="wr-lobby.jpg" alt="WiseRealm game lobby"><figcaption>The lobby: students join with a game code or a QR code.</figcaption></figure>
+            </div></div>
+            <h3 class="sub">For teachers</h3>
+            <ul class="fleurons">
+              <li>Class pages track each student’s accuracy from game to game.</li>
+              <li>“What to reteach” lists the questions a class misses most, and turns them into a review set.</li>
+              <li>Practice-at-home games with mastery tracking and daily streaks.</li>
+              <li>Students earn coins to dress up their pixel heroes in the shop.</li>
+            </ul>
+            <div class="buttons">
+              <a class="btn" href="https://wiserealm.org" target="_blank" rel="noopener">Visit wiserealm.org</a>
+              <a class="btn ghost" href="https://github.com/seanagain/wiserealm" target="_blank" rel="noopener">See the code</a>
+            </div>
+          </div>
+
           <!-- ---------- Teaching Projects ---------- -->
           <div class="recto" data-sub="Teaching Projects">
             <div class="chapter-head"><h2>Teaching Projects</h2><div class="orn">❦</div></div>
@@ -1049,6 +1079,11 @@
             <div class="chapter-head"><h2>Digital Projects</h2><div class="orn">❦</div></div>
             <!-- Copy an entry to add another project. Add a link with:
                  <p><a href="https://...">See it here →</a></p> -->
+            <div class="entry">
+              <h3>WiseRealm</h3>
+              <p class="meta">Classroom game platform · JavaScript &amp; Supabase · wiserealm.org</p>
+              <p>Live class games built from a teacher’s own question sets, with progress tracking for every student. <a href="#wiserealm">See it →</a></p>
+            </div>
             <div class="entry">
               <h3>Tibi <span class="zh" lang="zh-Hant">提筆</span></h3>
               <p class="meta">Android app · in development · Flutter</p>
