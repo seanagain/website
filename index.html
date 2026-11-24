@@ -384,6 +384,13 @@
   .material .buttons { gap: 8px; }
   .material .btn { padding: 5px 12px; font-size: .92rem; }
   .materials + .sub { margin-top: 1.8rem; }
+  .material .zh-title { margin: .1rem 0 .2rem; color: var(--muted); letter-spacing: .05em; }
+  details.abstract { margin: .2rem 0 .7rem; border-left: 2px solid var(--line); padding-left: .8rem; }
+  details.abstract summary { cursor: pointer; color: var(--accent); font-style: italic; list-style: none; }
+  details.abstract summary::-webkit-details-marker { display: none; }
+  details.abstract summary::before { content: "❧ "; font-style: normal; }
+  details.abstract[open] summary { margin-bottom: .5rem; }
+  details.abstract p { font-size: .96rem; }
   .entry a, .facts-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
 
   /* Entries & cards */
@@ -899,7 +906,7 @@
           </div>
 
           <!-- ---------- Master's story ---------- -->
-          <div class="recto story" data-sub="Master's degree" data-key="ma" data-draft="">
+          <div class="recto story" data-sub="Master's degree" data-key="ma">
             <div class="story-head">
               <div class="when">2022 – 2024</div>
               <h2>Master of Arts, Chinese</h2>
@@ -907,11 +914,8 @@
               <div class="orn">❦</div>
             </div>
             <h3 class="sub">My research</h3>
-            <p>[A few sentences about your research: the question you explored, how you went about it, and what you found.]</p>
-            <div class="plates">
-              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption]</figcaption></figure>
-              <figure class="plate"><div class="ph">Photograph</div><figcaption>[Caption]</figcaption></figure>
-            </div>
+            <p>For my master’s research, I used fNIRS brain imaging to compare two ways of teaching tone sandhi in Taiwanese: the traditional method and a newer “double-tone” method. Learners taught with the double-tone method showed less mental effort, which suggests it could be an easier first step for beginners.</p>
+            <div class="buttons"><a class="btn ghost" href="#research">Read the English summary</a></div>
           </div>
 
           <!-- ---------- NTU summer story ---------- -->
@@ -1113,33 +1117,55 @@
             <p class="center meta">Research I did as a student, and the conferences where I presented it.</p>
             <div class="materials">
               <div class="material">
-                <div class="mat-type">Undergraduate research · Phonology · 2021</div>
+                <div class="mat-type">Master’s research · Neurolinguistics · 2023</div>
+                <h3>Applying Neurolinguistics to Compare Two Methods of Teaching Taiwanese Tone Sandhi</h3>
+                <p class="zh-title zh" lang="zh-Hans">应用神经语言学比较两种台语变调系统教学法</p>
+                <p class="meta">M.A. research, Brigham Young University · fNIRS brain imaging</p>
+                <p>Tone sandhi (the way tones change when words are put together) is the biggest hurdle for beginners learning Taiwanese. I compared the traditional way of teaching it with a newer “double-tone” method, and used fNIRS brain imaging to see how hard learners’ brains were working with each one.</p>
+                <details class="abstract">
+                  <summary>Read the English summary</summary>
+                  <p><strong>Question.</strong> For a beginner, which method is easier to process: the traditional method, which teaches each tone and then the rules for how it changes, or the double-tone method, which teaches every tone as a pair of forms (a “standing” form and a “running” form)?</p>
+                  <p><strong>Method.</strong> Six advanced Mandarin learners who had never studied Taiwanese were split into two groups of three. Each group watched a 20-minute video lesson on one method, then did a written fill-in task and a spoken reading task. An fNIRS cap measured blood oxygen in the prefrontal cortex and Broca’s area, which shows how much mental effort each task took.</p>
+                  <p><strong>Results.</strong> On the written task, the traditional group scored 94.4% and the double-tone group 70.3%. On the spoken task, both groups scored 77.7%. The double-tone group showed lower brain activity, meaning less mental effort. Speaking took more effort than writing for both groups, a difference that was statistically significant; the difference between the two groups was not, given the small sample.</p>
+                  <p><strong>Conclusion.</strong> The early data suggest the double-tone method is easier for beginners to process, while accuracy depends mostly on immersion, whichever method is used. Since Taiwanese is mainly a spoken language and both groups spoke equally well, an easier first step could keep more learners going, which matters for a language at risk of being lost. A larger study is needed to confirm this.</p>
+                </details>
+                <div class="buttons">
+                  <a class="btn ghost" href="research-tone-sandhi-paper-zh.pdf" target="_blank" rel="noopener">Paper (Chinese, PDF)</a>
+                  <a class="btn ghost" href="research-tone-sandhi-slides-zh.pdf" target="_blank" rel="noopener">Slides (Chinese, PDF)</a>
+                </div>
+              </div>
+              <div class="material">
+                <div class="mat-type">Research paper · Sociolinguistics</div>
+                <h3>The Relationship between Taiwanese Hokkien Music and Language Attitudes</h3>
+                <p class="zh-title zh" lang="zh-Hans">台语音乐与语言态度的关系</p>
+                <p class="meta">Brigham Young University · written in English and Chinese · survey study</p>
+                <p>Fewer and fewer young people in Taiwan speak Taiwanese (Hokkien), but Taiwanese songs are still loved. I looked at the history and cultural themes of Taiwanese songs, and surveyed 25 people from every region of Taiwan about the language and its music.</p>
+                <details class="abstract">
+                  <summary>Read the English summary</summary>
+                  <p><strong>Background.</strong> About 85% of people in Taiwan have Taiwanese as a heritage language, but only about 22% use it regularly. Decades of Mandarin-only policies pushed it out of schools and the media. Music, however, is one of the strongest tools for keeping an endangered language alive.</p>
+                  <p><strong>Findings.</strong> Many respondents said Taiwanese songs play a central role in Taiwanese culture. People who listen to Taiwanese songs were more positive about the language’s future.</p>
+                  <p><strong>Recommendation.</strong> Taiwan’s Ministry of Education should promote Taiwanese among young people, and adapt Taiwanese songs in ways that appeal to them.</p>
+                </details>
+                <div class="buttons">
+                  <a class="btn ghost" href="research-taiwanese-music-en.pdf" target="_blank" rel="noopener">Paper (English, PDF)</a>
+                  <a class="btn ghost" href="research-taiwanese-music-zh.pdf" target="_blank" rel="noopener">Paper (Chinese, PDF)</a>
+                </div>
+              </div>
+              <div class="material">
+                <div class="mat-type">Undergraduate research · Phonology · 2021 – 2022</div>
                 <h3>Nativeness of Phonological Features in Mandarin Chinese Names</h3>
-                <p class="meta">Brigham Young University · funded by a HUM Grant from the BYU College of Humanities</p>
+                <p class="meta">Brigham Young University · funded by a HUM Grant from the BYU College of Humanities · presented at conferences in 2021 and 2022</p>
+                <p>Learners of Mandarin often struggle to pick a Chinese name that sounds natural. Earlier research looked at what names mean; I asked whether native speakers also follow sound patterns when they give names.</p>
+                <details class="abstract">
+                  <summary>Read the summary</summary>
+                  <p><strong>Method.</strong> I built a corpus of 2,400 names of students admitted to Peking University, Tsinghua University and the Communication University of China (2015 – 2020). Using Python, I broke each syllable down by tone, consonant (place and manner of articulation), vowel type and final consonant, then looked for patterns between syllables in SPSS.</p>
+                  <p><strong>Findings.</strong> Tone sequences, the type of consonant that starts each syllable, and whether a syllable ends in a consonant all showed patterns between syllables; vowel type did not. Native speakers seem to follow unconscious sound rules when choosing names.</p>
+                  <p><strong>Why it matters.</strong> Knowing these rules can help learners choose Chinese names that sound more native. A follow-up survey would test whether native speakers hear the difference.</p>
+                </details>
                 <div class="buttons">
-                  <a class="btn ghost" href="https://docs.google.com/document/d/1OXV4oHNSa4cjPAnFh1cWJf4ne5KKROkrZpzGVuiJo-8/edit?usp=sharing" target="_blank" rel="noopener">Paper</a>
-                  <a class="btn ghost" href="https://docs.google.com/presentation/d/1YPeIEYsZOLueiUua1zgvyOddXvhlz1Gi/edit?usp=sharing&amp;ouid=103131911445922637297&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">Slides</a>
+                  <a class="btn ghost" href="research-mandarin-names-paper.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+                  <a class="btn ghost" href="research-mandarin-names-slides.pdf" target="_blank" rel="noopener">Slides (PDF)</a>
                   <a class="btn ghost" href="https://hum.byu.edu/hum-grant-student-discoveries" target="_blank" rel="noopener">HUM Grant</a>
-                </div>
-              </div>
-              <div class="material" data-draft>
-                <div class="mat-type">Master’s research · Neurolinguistics</div>
-                <h3>[Title of your master’s research]</h3>
-                <p class="meta">Brigham Young University · [year]</p>
-                <p>[A short summary in English.]</p>
-                <div class="buttons">
-                  <a class="btn ghost" href="https://docs.google.com/document/d/1cq-6XORBPx8MTRpyXSTpxODQmfrMEqg7BwPGnVwQjn8/edit?usp=sharing" target="_blank" rel="noopener">Paper (Chinese)</a>
-                  <a class="btn ghost" href="https://docs.google.com/presentation/d/11EEAwoubvqrA9kdYew1FT-n3gx9r44HEOuq0RNuFOjA/edit?usp=sharing" target="_blank" rel="noopener">Slides</a>
-                </div>
-              </div>
-              <div class="material" data-draft>
-                <div class="mat-type">Research · Taiwanese music</div>
-                <h3>[Title of your music research]</h3>
-                <p class="meta">[Where · year]</p>
-                <p>[A short summary.]</p>
-                <div class="buttons">
-                  <a class="btn ghost" href="https://docs.google.com/document/d/1YtduX5eEq7cDIEMEOxH3Qw_3z5GAY6UG/edit?usp=sharing&amp;ouid=103131911445922637297&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">Paper</a>
-                  <a class="btn ghost" href="https://docs.google.com/document/d/1uneXmAIjHNKU5NVbCxOYq8C_ijfu4aYjLZQhkVY7AxY/edit?usp=sharing" target="_blank" rel="noopener">Paper (second document)</a>
                 </div>
               </div>
             </div>
